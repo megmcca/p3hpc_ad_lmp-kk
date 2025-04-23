@@ -1,0 +1,171 @@
+\documentclass[anonymous,sigconf,9pt]{acmart}
+
+\usepackage{microtype}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{external}
+\usepgfplotslibrary{colorbrewer}
+\pgfplotsset{cycle list/Set1}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{
+    tick align=outside,
+    tick pos=left,
+    xmajorgrids,
+    x grid style={white},
+    ymajorgrids,
+    y grid style={white},
+    axis line style={white},
+    axis background/.style={fill=white!89.803921568627459!black},
+    legend style={draw=none, fill=none},
+    legend cell align=left,
+}
+\pgfkeys{/pgf/number format/.cd, 1000 sep={\,}}
+
+\begin{document}
+
+\begin{figure*}[h!]
+\begin{tikzpicture}[overlay=false,>=latex]
+    \begin{groupplot}[
+            /tikz/overlay=false,
+            /tikz/thick,
+            group style={
+                group size=2 by 2,
+                vertical sep=0.2cm,
+                xlabels at=edge bottom,
+                ylabels at=edge left,
+                xticklabels at=edge bottom,
+            },
+            width=\linewidth/2,
+            ylabel near ticks,
+            xlabel={\# GPU nodes},
+            xmode=log,
+            log basis x=10,
+            xmin=0.5, xmax=11000,
+            %log10 x ticks with fixed point,
+            clip=false,
+            title style={yshift=-0.5cm, xshift=-2.8cm,anchor=west},
+            ylabel style={xshift=1.2cm},
+            height=2.1in,
+        ]
+            \nextgroupplot[
+                legend style={at={(1.0,0.7)},anchor=east},
+                legend columns=4,
+                title={a) Weak scaling LJ},
+                transpose legend,
+                ymin=-1,
+            ]
+            \addlegendimage{empty legend};
+            \addlegendentry{\hspace{-0.65cm}4xH100};
+            \pgfplotsset{cycle list/Reds-5}
+            \pgfplotsset{cycle list shift=1}
+            \addplot+[mark=*]  table[y index=3] {data/eos/lj/lj-256K-4gpus.dat};
+            \addlegendentry{256k};
+            \addplot+[mark=*]  table[y index=3] {data/eos/lj/lj-4M-4gpus.dat};
+            \addlegendentry{4M};
+            \addplot+[mark=*]  table[y index=3] {data/eos/lj/lj-16M-4gpus.dat};
+            \addlegendentry{16M};
+            \addlegendimage{empty legend};
+            \addlegendentry{\hspace{-0.65cm}4xMI300A};
+            \pgfplotsset{cycle list/Blues-5}
+            \pgfplotsset{cycle list shift=4}
+            \addplot+[mark=square*]  table[y index=3] {data/elcap/weaklj256K.txt};
+            \addlegendentry{256k};
+            \addplot+[mark=square*]  table[y index=3] {data/elcap/weaklj4M.txt};
+            \addlegendentry{4M};
+            \addplot+[mark=square*]  table[y index=3] {data/elcap/weaklj16M.txt};
+            \addlegendentry{16M};
+            
+            \nextgroupplot[
+                legend style={at={(1.0,0.72)},anchor=east},
+                legend columns=4,
+                title={b) Weak scaling SNAP},
+                ymax=18,
+                ymin=-1,
+                transpose legend,
+            ]
+            \pgfplotsset{cycle list/Reds-5}
+            \pgfplotsset{cycle list shift=1}
+            \addlegendimage{empty legend};
+            \addlegendentry{\hspace{-0.65cm}4xH100};
+            \addplot+[mark=*]  table[y index=3] {data/eos/snap/snap-16K-4gpus.dat};
+            \addlegendentry{16k};
+            \addplot+[mark=*]  table[y index=3] {data/eos/snap/snap-256K-4gpus.dat};
+            \addlegendentry{256k};
+            \addplot+[mark=*]  table[y index=3] {data/eos/snap/snap-1M-4gpus.dat};
+            \addlegendentry{1M};
+            \addlegendimage{empty legend};
+            \addlegendentry{\hspace{-0.65cm}4xMI300A};
+            \pgfplotsset{cycle list/Blues-5}
+            \pgfplotsset{cycle list shift=4}
+            \addplot+[mark=square*]  table[y index=3] {data/elcap/weaksnap16k.txt};
+            \addlegendentry{16k};
+            \addplot+[mark=square*]  table[y index=3] {data/elcap/weaksnap64k.txt};
+            \addlegendentry{64k};
+            \addplot+[mark=square*]  table[y index=3] {data/elcap/weaksnap1M.txt};
+            \addlegendentry{1M};
+            
+            \nextgroupplot[
+                ylabel={Speed [M\,atom-steps/s/node]},
+                legend style={at={(1.0,0.73)},anchor=east},
+                legend columns=4,
+                title={c) Weak scaling ReaxFF},
+                ymax=49,
+                transpose legend,
+                ymin=-1,
+            ]
+            \addlegendimage{empty legend};
+            \addlegendentry{\hspace{-0.65cm}4xH100};
+            \pgfplotsset{cycle list/Reds-5}
+            \pgfplotsset{cycle list shift=1}
+            \addplot+[mark=*]  table[y index=3] {data/eos/hns/reaxff-256K-4gpus.dat};
+            \addlegendentry{256k};
+            \addplot+[mark=*]  table[y index=3] {data/eos/hns/reaxff-4M-4gpus.dat};
+            \addlegendentry{4M};
+            \addplot+[mark=*]  table[y index=3] {data/eos/hns/reaxff-16M-4gpus.dat};
+            \addlegendentry{16M};
+            \pgfplotsset{cycle list/Blues-5}
+            \pgfplotsset{cycle list shift=4}
+            \addlegendimage{empty legend};
+            \addlegendentry{\hspace{-0.65cm}4xMI300A};
+            \addplot+[mark=square*]  table[y index=3] {data/elcap/weakreax256k.txt};
+            \addlegendentry{256k};
+            \addplot+[mark=square*]  table[y index=3] {data/elcap/weakreax4M.txt};
+            \addlegendentry{4M};
+            \addplot+[mark=square*]  table[y index=3] {data/elcap/weakreax16M.txt};
+            \addlegendentry{16M};
+            
+            \nextgroupplot[
+                ymin=-0.1,
+                ymin=-1, ymax=28,
+                legend style={at={(0.0,0.3)},anchor=west},
+                legend columns=2,
+                title={d) Strong scaling FLARE on Frontier},
+            ]
+            \addlegendimage{empty legend};
+            \addlegendentry{\hspace{-0.65cm}\# atoms};
+            \pgfplotsset{cycle list/PuRd-9}
+            \pgfplotsset{cycle list shift=3}
+            %\addplot+[mark=*]  table[y index=3] {data/frontier/pth1e5.dat};
+            %\addlegendentry{\(10^5\)};
+            \addplot+[mark=*]  table[y index=3] {data/frontier/pth1e6.dat};
+            \addlegendentry{\(10^6\)};
+            \addplot+[mark=*]  table[y index=3] {data/frontier/pth1e7.dat};
+            \addlegendentry{\(10^7\)};
+            \addplot+[mark=*]  table[y index=3] {data/frontier/pth1e8.dat};
+            \addlegendentry{\(10^8\)};
+            \addplot+[mark=*]  table[y index=3] {data/frontier/pth1e9.dat};
+            \addlegendentry{\(10^{9}\)};
+            \addplot+[mark=*]  table[y index=3] {data/frontier/pth1e10.dat};
+            \addlegendentry{\(10^{10}\)};
+            \addplot+[mark=*]  table[y index=3] {data/frontier/pth1e11.dat};
+            \addlegendentry{\(10^{11}\)};
+            \addplot+[mark=square*,red]  table[y index=3] {data/frontier/pth1e12.dat};
+            \addlegendentry{\(10^{12}\)};
+    \end{groupplot}
+\end{tikzpicture}
+\caption{Scaling results for LAMMPS on different exascale architectures. a-c) Weak scaling of SNAP on Eos and El Capitan, each using 4 GPUs per node, for different numbers of atoms per node, as given by the legend. The performance saturation for each potential is in agreement with \ref{fig:perfsat}. d) Strong scaling on OLCF Frontier up to 1 trillion atoms using the FLARE potential, which is conceptually identical to SNAP but computationally less expensive.}\label{fig:scalability}
+\end{figure*}
+\end{document}
+

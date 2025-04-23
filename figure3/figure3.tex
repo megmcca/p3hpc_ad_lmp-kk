@@ -1,0 +1,59 @@
+\documentclass[anonymous,sigconf,9pt]{acmart}
+
+\usepackage{microtype}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{external}
+\usepgfplotslibrary{colorbrewer}
+\pgfplotsset{cycle list/Set1}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{
+    tick align=outside,
+    tick pos=left,
+    xmajorgrids,
+    x grid style={white},
+    ymajorgrids,
+    y grid style={white},
+    axis line style={white},
+    axis background/.style={fill=white!89.803921568627459!black},
+    legend style={draw=none, fill=none},
+    legend cell align=left,
+}
+\pgfkeys{/pgf/number format/.cd, 1000 sep={\,}}
+
+\begin{document}
+
+
+\begin{figure}
+    \centering
+    %\includegraphics[width=\linewidth]{results//cache-carveout-h100-hbm3/h100_carveout_placeholder.png}
+\begin{tikzpicture}
+\begin{axis}[
+    thick,
+    %xmode=log,
+    %ymode=log,
+    legend style={at={(1.0,0.25)},anchor=east},
+    xlabel={Shared memory carveout [KiB]},
+    ylabel={Perf. relative to ``default'' carveout},
+    height=2in,
+    width=\linewidth,
+]
+    \addplot+[mark=*] table[y index=1] {data/carveout_data_h100_hbm3.txt};
+    \addlegendentry{ComputeUi};
+    \addplot+[mark=square*] table[y index=2] {data/carveout_data_h100_hbm3.txt};
+    \addlegendentry{ComputeYi};
+    \addplot+[mark=diamond*] table[y index=3] {data/carveout_data_h100_hbm3.txt};
+    \addlegendentry{ComputeFusedDeidrj};
+    \addplot+[mark=triangle*] table[y index=4] {data/carveout_data_h100_hbm3.txt};
+    \addlegendentry{PairComputeLJCut};
+\end{axis}
+\end{tikzpicture}
+    \caption{Performance of the \texttt{ComputeUi}, \texttt{ComputeYi}, and \texttt{ComputeFusedDeidrj} kernels in SNAP and the pairwise force kernel \texttt{PairComputeLJCut} in Lennard-Jones as a function of the shared memory carveout on NVIDIA H100-HBM3-SXM. The performance is normalized against the ``default'' value selected at runtime. All runs were at 1,024,000 atoms.}
+    \label{fig:cache_carveout}
+\end{figure}
+
+
+\end{document}
+
