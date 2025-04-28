@@ -1,0 +1,58 @@
+#!/bin/bash 
+
+#flux: --nodes=1024
+#flux: -u
+#flux: --exclusive
+#flux: -q pbatch
+#flux: -t 60
+#flux: --job-name=elcap
+#flux: --setattr=thp=always
+#flux: --setattr=hugepages=512GB 
+
+export starttime=`date` 
+
+echo elcap kokkos_gpu START ${starttime} 
+
+. elcap_env.sh 
+
+export LD_LIBRARY_PATH=./:$LD_LIBRARY_PATH
+export HIP_LAUNCH_BLOCKING=1 
+
+echo Starting run to create log.lammps.date=2Apr25.model=lj.machine=elcap.pkg=kokkos_gpu.kind=weak.size=256K.node=1024.mpi=4.gpu=4.mode=off
+# Clear the system wide reserved core setting, since we do a custom set with corespecbal
+unset MPIBIND_RESTRICT
+flux run --exclusive -N 1024 --tasks-per-node=1 -x -o cpu-affinity=off -o gpu-affinity=off -l -u --quiet --time-limit=5m -o exit-timeout=none ${USE_SPINDLE} ./defrag
+if [[ $? -ne 0 ]]; then
+  echo "WARNING: The defrag device memory utility failed"
+fi
+flux run --exclusive --verbose -N 1024 -n 4096 -x -c24 -o cpu-affinity=off -o gpu-affinity=off -o mpibind=on,corespecbal:17,smt:1,verbose:1 -l -u ${USE_SPINDLE} ./lmp_elcap_kokkos_gpu -sf kk -k on g 1 -pk kokkos neigh full neigh/qeq full newton off comm device pair/only off neigh/transpose off -v x 320 -v y 320 -v z 640 -v t 1000 -in in.lj.gpu.steps -nocite -log log.lammps.date=2Apr25.model=lj.machine=elcap.pkg=kokkos_gpu.kind=weak.size=256K.node=1024.mpi=4.gpu=4.mode=off 
+
+echo Starting run to create log.lammps.date=2Apr25.model=lj.machine=elcap.pkg=kokkos_gpu.kind=weak.size=1M.node=1024.mpi=4.gpu=4.mode=off
+# Clear the system wide reserved core setting, since we do a custom set with corespecbal
+unset MPIBIND_RESTRICT
+flux run --exclusive -N 1024 --tasks-per-node=1 -x -o cpu-affinity=off -o gpu-affinity=off -l -u --quiet --time-limit=5m -o exit-timeout=none ${USE_SPINDLE} ./defrag
+if [[ $? -ne 0 ]]; then
+  echo "WARNING: The defrag device memory utility failed"
+fi
+flux run --exclusive --verbose -N 1024 -n 4096 -x -c24 -o cpu-affinity=off -o gpu-affinity=off -o mpibind=on,corespecbal:17,smt:1,verbose:1 -l -u ${USE_SPINDLE} ./lmp_elcap_kokkos_gpu -sf kk -k on g 1 -pk kokkos neigh full neigh/qeq full newton off comm device pair/only off neigh/transpose off -v x 640 -v y 640 -v z 640 -v t 1000 -in in.lj.gpu.steps -nocite -log log.lammps.date=2Apr25.model=lj.machine=elcap.pkg=kokkos_gpu.kind=weak.size=1M.node=1024.mpi=4.gpu=4.mode=off 
+
+echo Starting run to create log.lammps.date=2Apr25.model=lj.machine=elcap.pkg=kokkos_gpu.kind=weak.size=4M.node=1024.mpi=4.gpu=4.mode=off
+# Clear the system wide reserved core setting, since we do a custom set with corespecbal
+unset MPIBIND_RESTRICT
+flux run --exclusive -N 1024 --tasks-per-node=1 -x -o cpu-affinity=off -o gpu-affinity=off -l -u --quiet --time-limit=5m -o exit-timeout=none ${USE_SPINDLE} ./defrag
+if [[ $? -ne 0 ]]; then
+  echo "WARNING: The defrag device memory utility failed"
+fi
+flux run --exclusive --verbose -N 1024 -n 4096 -x -c24 -o cpu-affinity=off -o gpu-affinity=off -o mpibind=on,corespecbal:17,smt:1,verbose:1 -l -u ${USE_SPINDLE} ./lmp_elcap_kokkos_gpu -sf kk -k on g 1 -pk kokkos neigh full neigh/qeq full newton off comm device pair/only off neigh/transpose off -v x 640 -v y 1280 -v z 1280 -v t 1000 -in in.lj.gpu.steps -nocite -log log.lammps.date=2Apr25.model=lj.machine=elcap.pkg=kokkos_gpu.kind=weak.size=4M.node=1024.mpi=4.gpu=4.mode=off 
+
+echo Starting run to create log.lammps.date=2Apr25.model=lj.machine=elcap.pkg=kokkos_gpu.kind=weak.size=16M.node=1024.mpi=4.gpu=4.mode=off
+# Clear the system wide reserved core setting, since we do a custom set with corespecbal
+unset MPIBIND_RESTRICT
+flux run --exclusive -N 1024 --tasks-per-node=1 -x -o cpu-affinity=off -o gpu-affinity=off -l -u --quiet --time-limit=5m -o exit-timeout=none ${USE_SPINDLE} ./defrag
+if [[ $? -ne 0 ]]; then
+  echo "WARNING: The defrag device memory utility failed"
+fi
+flux run --exclusive --verbose -N 1024 -n 4096 -x -c24 -o cpu-affinity=off -o gpu-affinity=off -o mpibind=on,corespecbal:17,smt:1,verbose:1 -l -u ${USE_SPINDLE} ./lmp_elcap_kokkos_gpu -sf kk -k on g 1 -pk kokkos neigh full neigh/qeq full newton off comm device pair/only off neigh/transpose off -v x 1280 -v y 1280 -v z 2560 -v t 1000 -in in.lj.gpu.steps -nocite -log log.lammps.date=2Apr25.model=lj.machine=elcap.pkg=kokkos_gpu.kind=weak.size=16M.node=1024.mpi=4.gpu=4.mode=off 
+
+
+echo elcap kokkos_gpu ELAPSED ${starttime} to `date`
