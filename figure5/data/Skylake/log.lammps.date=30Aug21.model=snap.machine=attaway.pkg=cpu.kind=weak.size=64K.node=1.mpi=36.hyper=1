@@ -1,0 +1,130 @@
+LAMMPS (30 Jul 2021)
+  using 1 OpenMP thread(s) per MPI task
+# Demonstrate SNAP W potential
+
+# Initialize simulation
+
+variable nsteps index 100
+variable nrep equal 10
+variable a equal 3.1803
+units           metal
+
+boundary        p p p
+
+lattice         bcc $a
+lattice         bcc 3.1803
+Lattice spacing in x,y,z = 3.1803000 3.1803000 3.1803000
+region          box block 0 ${x} 0 ${y} 0 ${z}
+region          box block 0 20 0 ${y} 0 ${z}
+region          box block 0 20 0 40 0 ${z}
+region          box block 0 20 0 40 0 40
+create_box      1 box
+Created orthogonal box = (0.0000000 0.0000000 0.0000000) to (63.606000 127.21200 127.21200)
+  2 by 3 by 6 MPI processor grid
+create_atoms    1 box
+Created 64000 atoms
+  using lattice units in orthogonal box = (0.0000000 0.0000000 0.0000000) to (63.606000 127.21200 127.21200)
+  create_atoms CPU = 0.002 seconds
+
+mass 1 183.84
+
+# choose potential
+
+include W_2940_2017_2.snap
+# DATE: 2017-02-20 UNITS: metal CONTRIBUTOR: Mitchell Wood mitwood@sandia.gov CITATION: Wood, M. A. and Thompson, A. P. "Quantum-Accurate Molecular Dynamics Potential for Tungsten" arXiv:1702.07042 [physics.comp-ph]
+#
+# Definition of SNAP+ZBL potential.
+variable zblcutinner equal 4
+variable zblcutouter equal 4.8
+variable zblz equal 74
+
+# Specify hybrid with SNAP and ZBL
+
+pair_style hybrid/overlay zbl ${zblcutinner} ${zblcutouter} snap
+pair_style hybrid/overlay zbl 4 ${zblcutouter} snap
+pair_style hybrid/overlay zbl 4 4.8 snap
+pair_coeff 1 1 zbl ${zblz} ${zblz}
+pair_coeff 1 1 zbl 74 ${zblz}
+pair_coeff 1 1 zbl 74 74
+pair_coeff * * snap W_2940_2017_2.snapcoeff W_2940_2017_2.snapparam W
+Reading potential file W_2940_2017_2.snapcoeff with DATE: 2017-02-20
+SNAP Element = W, Radius 0.5, Weight 1
+Reading potential file W_2940_2017_2.snapparam with DATE: 2017-02-20
+SNAP keyword rcutfac 4.73442
+SNAP keyword twojmax 8
+SNAP keyword rfac0 0.99363
+SNAP keyword rmin0 0
+SNAP keyword bzeroflag 0
+SNAP keyword quadraticflag 0
+
+#Nomenclature on the snap files are Element_DakotaID_Year_Month
+
+# Setup output
+
+thermo          1000
+thermo_modify norm yes
+
+# Set up NVE run
+
+timestep 0.5e-3
+neighbor 1.0 bin
+neigh_modify once no every 1 delay 0 check yes
+
+# Run MD
+
+velocity all create 300.0 4928459 loop geom
+fix 1 all nve
+
+run             ${t}
+run             100
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 5.8
+  ghost atom cutoff = 5.8
+  binsize = 2.9, bins = 22 44 44
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair zbl, perpetual, half/full from (2)
+      attributes: half, newton on
+      pair build: halffull/newton
+      stencil: none
+      bin: none
+  (2) pair snap, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 5.703 | 6.076 | 6.250 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0          300   -11.028325            0   -10.989547    3030.5764 
+     100    30.492959   -10.993487            0   -10.989545    12153.235 
+Loop time of 57.0188 on 36 procs for 100 steps with 64000 atoms
+
+Performance: 0.076 ns/day, 316.771 hours/ns, 1.754 timesteps/s
+99.4% CPU use with 36 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 50.11      | 52.867     | 56.906     |  29.3 | 92.72
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.06973    | 4.0153     | 6.901      | 114.4 |  7.04
+Output  | 5.4528e-05 | 0.0016313  | 0.009436   |   8.6 |  0.00
+Modify  | 0.0017965  | 0.0019568  | 0.0023842  |   0.3 |  0.00
+Other   |            | 0.133      |            |       |  0.23
+
+Nlocal:        1777.78 ave        1890 max        1690 min
+Histogram: 8 0 0 16 0 0 4 0 0 8
+Nghost:        2839.22 ave        3121 max        2560 min
+Histogram: 4 0 8 4 4 0 8 0 4 4
+Neighs:        51555.6 ave       54810 max       49010 min
+Histogram: 8 0 0 16 0 0 4 0 0 8
+FullNghs:      103111.0 ave      109620 max       98020 min
+Histogram: 8 0 0 16 0 0 4 0 0 8
+
+Total # of neighbors = 3712000
+Ave neighs/atom = 58.000000
+Neighbor list builds = 0
+Dangerous builds = 0
+
+Total wall time: 0:00:57

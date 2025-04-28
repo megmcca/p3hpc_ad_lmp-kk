@@ -1,0 +1,79 @@
+LAMMPS (30 Jul 2021)
+  using 1 OpenMP thread(s) per MPI task
+# 3d Lennard-Jones melt
+
+units		lj
+atom_style	atomic
+atom_modify     sort 100 0.0
+
+lattice		fcc 0.8442
+Lattice spacing in x,y,z = 1.6795962 1.6795962 1.6795962
+region		box block 0 $x 0 $y 0 $z
+region		box block 0 160 0 $y 0 $z
+region		box block 0 160 0 160 0 $z
+region		box block 0 160 0 160 0 160
+create_box	1 box
+Created orthogonal box = (0.0000000 0.0000000 0.0000000) to (268.73539 268.73539 268.73539)
+  3 by 3 by 4 MPI processor grid
+create_atoms	1 box
+Created 16384000 atoms
+  using lattice units in orthogonal box = (0.0000000 0.0000000 0.0000000) to (268.73539 268.73539 268.73539)
+  create_atoms CPU = 0.056 seconds
+mass		1 1.0
+
+velocity	all create 1.44 87287 loop geom
+
+pair_style	lj/cut 2.5
+pair_coeff	1 1 1.0 1.0 2.5
+
+neighbor	0.3 bin
+neigh_modify	delay 0 every 20 check no
+
+fix		1 all nve
+thermo          10000
+
+run		$t
+run		1000
+Neighbor list info ...
+  update every 20 steps, delay 0 steps, check no
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 2.8
+  ghost atom cutoff = 2.8
+  binsize = 1.4, bins = 192 192 192
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 148.9 | 151.0 | 152.1 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0         1.44   -6.7733681            0   -4.6133682   -5.0196693 
+    1000   0.70395288   -5.6763993            0     -4.62047    0.7036136 
+Loop time of 306.819 on 36 procs for 1000 steps with 16384000 atoms
+
+Performance: 1407.995 tau/day, 3.259 timesteps/s
+99.0% CPU use with 36 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 232.99     | 236.19     | 238.44     |   8.7 | 76.98
+Neigh   | 31.959     | 32.169     | 32.478     |   1.9 | 10.48
+Comm    | 10.277     | 12.995     | 16.268     |  38.4 |  4.24
+Output  | 0.0036391  | 0.0037508  | 0.003928   |   0.1 |  0.00
+Modify  | 21.594     | 21.725     | 21.868     |   1.4 |  7.08
+Other   |            | 3.739      |            |       |  1.22
+
+Nlocal:        455111.0 ave      455615 max      454756 min
+Histogram: 4 2 6 6 6 5 3 1 2 1
+Nghost:        101773.0 ave      102342 max      100942 min
+Histogram: 2 1 1 4 4 8 1 3 10 2
+Neighs:    1.70599e+07 ave 1.71057e+07 max   1.702e+07 min
+Histogram: 1 5 4 6 4 3 6 2 3 2
+
+Total # of neighbors = 6.1415788e+08
+Ave neighs/atom = 37.485222
+Neighbor list builds = 50
+Dangerous builds not checked
+Total wall time: 0:05:08

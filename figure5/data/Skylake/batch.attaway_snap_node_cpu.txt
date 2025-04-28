@@ -1,0 +1,56 @@
+#!/bin/csh
+
+#SBATCH --nodes=1
+#SBATCH -p batch
+#SBATCH --time=08:00:00
+#SBATCH --account=FY200075
+#SBATCH --job-name=attaway
+set starttime = `date`
+
+echo attaway cpu START ${starttime}
+
+module purge
+module load intel/20.0.2.254
+module load mkl/20.0.2.254 
+module load gnu/7.3.1
+module load openmpi-intel/4.0.3
+module list
+setenv OMP_NUM_THREADS 1
+setenv OMP_PLACES cores
+setenv OMP_PROC_BIND spread
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=1K.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 5 -v y 10 -v z 10 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=1K.node=1.mpi=36.hyper=1
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=2K.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 10 -v y 10 -v z 10 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=2K.node=1.mpi=36.hyper=1
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=4K.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 10 -v y 10 -v z 20 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=4K.node=1.mpi=36.hyper=1
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=8K.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 10 -v y 20 -v z 20 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=8K.node=1.mpi=36.hyper=1
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=16K.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 20 -v y 20 -v z 20 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=16K.node=1.mpi=36.hyper=1
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=32K.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 20 -v y 20 -v z 40 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=32K.node=1.mpi=36.hyper=1
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=64K.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 20 -v y 40 -v z 40 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=64K.node=1.mpi=36.hyper=1
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=128K.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 40 -v y 40 -v z 40 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=128K.node=1.mpi=36.hyper=1
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=256K.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 40 -v y 40 -v z 80 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=256K.node=1.mpi=36.hyper=1
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=512K.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 40 -v y 80 -v z 80 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=512K.node=1.mpi=36.hyper=1
+
+echo Starting run to create log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=1M.node=1.mpi=36.hyper=1
+mpirun -n 36  -npersocket 18  --bind-to core ./lmp_attaway_cpu -v x 80 -v y 80 -v z 80 -v t 100 -in in.snap.steps -nocite -log log.lammps.date=30Aug21.model=snap.machine=attaway.pkg=cpu.kind=node.size=1M.node=1.mpi=36.hyper=1
+
+
+echo attaway cpu ELAPSED ${starttime} to `date`
