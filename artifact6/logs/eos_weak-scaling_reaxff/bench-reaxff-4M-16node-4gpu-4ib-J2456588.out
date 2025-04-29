@@ -1,0 +1,80 @@
+***************** ALLOCATED NODE LIST *****************
+ eos[0260,0266,0307,0311,0319,0338-0339,0345-0346,0351,0358-0359,0362-0364,0371]
+*******************************************************
+LAMMPS (2 Apr 2025 - Development - patch_2Apr2025-24-g6372178caa-modified)
+KOKKOS mode with Kokkos version 4.6.0 is enabled (src/KOKKOS/kokkos.cpp:72)
+  will use up to 4 GPU(s) per node
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading data file ...
+  triclinic box = (0 0 0) to (22.326 11.1412 13.778966) with tilt (0 -5.02603 0)
+  4 by 4 by 4 MPI processor grid
+  reading atoms ...
+  304 atoms
+  reading velocities ...
+  304 velocities
+  read_data CPU = 0.039 seconds
+Replication is creating a 64x64x48 = 196608 times larger system...
+  triclinic box = (0 0 0) to (1428.864 713.0368 661.39037) with tilt (0 -241.24944 0)
+  8 by 4 by 2 MPI processor grid
+  bounding box image = (0 -1 -1) to (0 1 1)
+  bounding box extra memory = 0.03 MB
+  average # of replicas added to proc = 3818.81 out of 196608 (1.94%)
+  59768832 atoms
+  replicate CPU = 0.115 seconds
+Neighbor list info ...
+  update: every = 20 steps, delay = 0 steps, check = no
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 11
+  ghost atom cutoff = 11
+  binsize = 11, bins = 152 65 61
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reaxff/kk, perpetual
+      attributes: half, newton off, ghost, kokkos_device
+      pair build: half/bin/newtoff/ghost/kk/device
+      stencil: full/ghost/bin/3d
+      bin: kk/device
+  (2) fix qeq/reaxff/kk, perpetual
+      attributes: full, newton off, kokkos_device
+      pair build: full/bin/kk/device
+      stencil: full/bin/3d
+      bin: kk/device
+Setting up Verlet run ...
+  Unit style    : real
+  Current step  : 0
+  Time step     : 0.1
+Per MPI rank memory allocation (min/avg/max) = 1.006e+04 | 1.006e+04 | 1.009e+04 Mbytes
+   Step          Temp          PotEng         Press          E_vdwl         E_coul         Volume    
+         0   300           -113.27833      439.02039     -111.57687     -1.7014647      6.7384608e+08
+       100   302.56211     -113.28524      10350.376     -111.58655     -1.6986966      6.7384608e+08
+Loop time of 10.0141 on 64 procs for 100 steps with 59768832 atoms
+
+Performance: 0.086 ns/day, 278.169 hours/ns, 9.986 timesteps/s, 596.848 Matom-step/s
+98.9% CPU use with 64 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 3.9064     | 3.9546     | 3.9784     |   0.6 | 39.49
+Neigh   | 0.16025    | 0.17215    | 0.18466    |   1.5 |  1.72
+Comm    | 0.52886    | 0.55668    | 0.65765    |   3.1 |  5.56
+Output  | 0.0029201  | 0.010514   | 0.021526   |   8.0 |  0.10
+Modify  | 5.222      | 5.3083     | 5.33       |   0.9 | 53.01
+Other   |            | 0.01182    |            |       |  0.12
+
+Nlocal:         933888 ave      933976 max      933839 min
+Histogram: 2 8 11 16 20 4 1 1 0 1
+Nghost:         329396 ave      329532 max      329236 min
+Histogram: 1 0 1 8 11 25 13 3 1 1
+Neighs:    2.42757e+08 ave 2.42779e+08 max 2.42743e+08 min
+Histogram: 1 6 7 20 14 12 2 0 1 1
+FullNghs:  4.58245e+08 ave 4.58287e+08 max 4.58219e+08 min
+Histogram: 3 5 11 16 17 8 2 0 1 1
+
+Total # of neighbors = 2.9327663e+10
+Ave neighs/atom = 490.6849
+Neighbor list builds = 5
+Dangerous builds not checked
+Total wall time: 0:00:12
