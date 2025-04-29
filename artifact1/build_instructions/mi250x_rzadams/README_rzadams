@@ -1,0 +1,3 @@
+The tests run on LLNL's RZAdams used LAMMPS version 29Aug2024 (stable release).
+The build instructions can be found in the directory ../mi250x_frontier.
+
