@@ -4,6 +4,7 @@ mkdir -p /var/tmp/lammps/build && \
   export NVCC_WRAPPER_DEFAULT_COMPILER="nvc++"
   cmake -D BUILD_SHARED_LIBS=OFF \
         -D CMAKE_INSTALL_PREFIX=/usr/local/lammps \
+        -D CMAKE_CXX_FLAGS='-DSET_CARVEOUT=100' # Uncomment this line and set -DSET_CARVEOUT to the desired value (between 0 and 100, inclusive) 
         -D LAMMPS_SIZES=bigbig \
         -D Kokkos_ARCH_HOPPER90=ON \
         -D Kokkos_ARCH_BDW=ON \

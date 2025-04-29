@@ -1,0 +1,200 @@
+
+====================
+== NVIDIA HPC SDK ==
+====================
+ 
+NVIDIA HPC SDK version 25.3
+ 
+Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+Collecting data...
+LAMMPS (4 Feb 2025 - Development - )
+KOKKOS mode with Kokkos version 4.5.1 is enabled (src/KOKKOS/kokkos.cpp:72)
+  will use up to 1 GPU(s) per node
+  using 1 OpenMP thread(s) per MPI task
+Lattice spacing in x,y,z = 3.1803 3.1803 3.1803
+Created orthogonal box = (0 0 0) to (127.212 127.212 127.212)
+  1 by 1 by 1 MPI processor grid
+Created 128000 atoms
+  using lattice units in orthogonal box = (0 0 0) to (127.212 127.212 127.212)
+  create_atoms CPU = 0.030 seconds
+Reading potential file W_2940_2017_2.snapcoeff with DATE: 2017-02-20
+SNAP Element = W, Radius 0.5, Weight 1
+Reading potential file W_2940_2017_2.snapparam with DATE: 2017-02-20
+SNAP keyword rcutfac 4.73442
+SNAP keyword twojmax 8
+SNAP keyword rfac0 0.99363
+SNAP keyword rmin0 0
+SNAP keyword bzeroflag 0
+SNAP keyword quadraticflag 0
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 5.8
+  ghost atom cutoff = 5.8
+  binsize = 5.8, bins = 22 22 22
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair zbl, perpetual, half/full from (2)
+      attributes: half, newton on, kokkos_device, cut 5.8
+      pair build: halffull/newton/kk/device
+      stencil: none
+      bin: none
+  (2) pair snap, perpetual
+      attributes: full, newton on, kokkos_device
+      pair build: full/bin/kk/device
+      stencil: full/bin/3d
+      bin: kk/device
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.0005
+Per MPI rank memory allocation (min/avg/max) = 84.54 | 84.54 | 84.54 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   800           -11.028325      0             -10.924917      1781196.9    
+       200   341.73737     -10.951891      0             -10.907718      1789113.4    
+Loop time of 7.18664 on 1 procs for 200 steps with 128000 atoms
+
+Performance: 1.202 ns/day, 19.963 hours/ns, 27.829 timesteps/s, 3.562 Matom-step/s
+100.1% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 7.1594     | 7.1594     | 7.1594     |   0.0 | 99.62
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.0086893  | 0.0086893  | 0.0086893  |   0.0 |  0.12
+Output  | 8.5345e-05 | 8.5345e-05 | 8.5345e-05 |   0.0 |  0.00
+Modify  | 0.0049031  | 0.0049031  | 0.0049031  |   0.0 |  0.07
+Other   |            | 0.01356    |            |       |  0.19
+
+Nlocal:         128000 ave      128000 max      128000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          36691 ave       36691 max       36691 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:      3.712e+06 ave   3.712e+06 max   3.712e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:    7.424e+06 ave   7.424e+06 max   7.424e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 7424000
+Ave neighs/atom = 58
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:08
+Generating '/tmp/nsys-report-36fe.qdstrm'
+[1/6] [0%                          ] c90_s228KiB.nsys-rep[1/6] [0%                          ] c90_s228KiB.nsys-rep[1/6] [====28%                     ] c90_s228KiB.nsys-rep[1/6] [==21%                       ] c90_s228KiB.nsys-rep[1/6] [==20%                       ] c90_s228KiB.nsys-rep[1/6] [========40%                 ] c90_s228KiB.nsys-rep[1/6] [=============59%            ] c90_s228KiB.nsys-rep[1/6] [===================79%      ] c90_s228KiB.nsys-rep[1/6] [====================84%     ] c90_s228KiB.nsys-rep[1/6] [========================100%] c90_s228KiB.nsys-rep[1/6] [========================100%] c90_s228KiB.nsys-rep
+[2/6] [0%                          ] c90_s228KiB.sqlite[2/6] [1%                          ] c90_s228KiB.sqlite[2/6] [2%                          ] c90_s228KiB.sqlite[2/6] [3%                          ] c90_s228KiB.sqlite[2/6] [4%                          ] c90_s228KiB.sqlite[2/6] [5%                          ] c90_s228KiB.sqlite[2/6] [6%                          ] c90_s228KiB.sqlite[2/6] [7%                          ] c90_s228KiB.sqlite[2/6] [8%                          ] c90_s228KiB.sqlite[2/6] [9%                          ] c90_s228KiB.sqlite[2/6] [10%                         ] c90_s228KiB.sqlite[2/6] [11%                         ] c90_s228KiB.sqlite[2/6] [12%                         ] c90_s228KiB.sqlite[2/6] [13%                         ] c90_s228KiB.sqlite[2/6] [14%                         ] c90_s228KiB.sqlite[2/6] [=15%                        ] c90_s228KiB.sqlite[2/6] [=16%                        ] c90_s228KiB.sqlite[2/6] [=17%                        ] c90_s228KiB.sqlite[2/6] [==18%                       ] c90_s228KiB.sqlite[2/6] [==19%                       ] c90_s228KiB.sqlite[2/6] [==20%                       ] c90_s228KiB.sqlite[2/6] [==21%                       ] c90_s228KiB.sqlite[2/6] [===22%                      ] c90_s228KiB.sqlite[2/6] [===23%                      ] c90_s228KiB.sqlite[2/6] [===24%                      ] c90_s228KiB.sqlite[2/6] [====25%                     ] c90_s228KiB.sqlite[2/6] [====26%                     ] c90_s228KiB.sqlite[2/6] [====27%                     ] c90_s228KiB.sqlite[2/6] [====28%                     ] c90_s228KiB.sqlite[2/6] [=====29%                    ] c90_s228KiB.sqlite[2/6] [=====30%                    ] c90_s228KiB.sqlite[2/6] [=====31%                    ] c90_s228KiB.sqlite[2/6] [=====32%                    ] c90_s228KiB.sqlite[2/6] [======33%                   ] c90_s228KiB.sqlite[2/6] [======34%                   ] c90_s228KiB.sqlite[2/6] [======35%                   ] c90_s228KiB.sqlite[2/6] [=======36%                  ] c90_s228KiB.sqlite[2/6] [=======37%                  ] c90_s228KiB.sqlite[2/6] [=======38%                  ] c90_s228KiB.sqlite[2/6] [=======39%                  ] c90_s228KiB.sqlite[2/6] [========40%                 ] c90_s228KiB.sqlite[2/6] [========41%                 ] c90_s228KiB.sqlite[2/6] [========42%                 ] c90_s228KiB.sqlite[2/6] [=========43%                ] c90_s228KiB.sqlite[2/6] [=========44%                ] c90_s228KiB.sqlite[2/6] [=========45%                ] c90_s228KiB.sqlite[2/6] [=========46%                ] c90_s228KiB.sqlite[2/6] [==========47%               ] c90_s228KiB.sqlite[2/6] [==========48%               ] c90_s228KiB.sqlite[2/6] [==========49%               ] c90_s228KiB.sqlite[2/6] [===========50%              ] c90_s228KiB.sqlite[2/6] [===========51%              ] c90_s228KiB.sqlite[2/6] [===========52%              ] c90_s228KiB.sqlite[2/6] [===========53%              ] c90_s228KiB.sqlite[2/6] [============54%             ] c90_s228KiB.sqlite[2/6] [============55%             ] c90_s228KiB.sqlite[2/6] [============56%             ] c90_s228KiB.sqlite[2/6] [============57%             ] c90_s228KiB.sqlite[2/6] [=============58%            ] c90_s228KiB.sqlite[2/6] [=============59%            ] c90_s228KiB.sqlite[2/6] [=============60%            ] c90_s228KiB.sqlite[2/6] [==============61%           ] c90_s228KiB.sqlite[2/6] [==============62%           ] c90_s228KiB.sqlite[2/6] [==============63%           ] c90_s228KiB.sqlite[2/6] [==============64%           ] c90_s228KiB.sqlite[2/6] [===============65%          ] c90_s228KiB.sqlite[2/6] [===============66%          ] c90_s228KiB.sqlite[2/6] [===============67%          ] c90_s228KiB.sqlite[2/6] [================68%         ] c90_s228KiB.sqlite[2/6] [================69%         ] c90_s228KiB.sqlite[2/6] [================70%         ] c90_s228KiB.sqlite[2/6] [================71%         ] c90_s228KiB.sqlite[2/6] [=================72%        ] c90_s228KiB.sqlite[2/6] [=================73%        ] c90_s228KiB.sqlite[2/6] [=================74%        ] c90_s228KiB.sqlite[2/6] [==================75%       ] c90_s228KiB.sqlite[2/6] [==================76%       ] c90_s228KiB.sqlite[2/6] [==================77%       ] c90_s228KiB.sqlite[2/6] [==================78%       ] c90_s228KiB.sqlite[2/6] [===================79%      ] c90_s228KiB.sqlite[2/6] [===================80%      ] c90_s228KiB.sqlite[2/6] [===================81%      ] c90_s228KiB.sqlite[2/6] [===================82%      ] c90_s228KiB.sqlite[2/6] [====================83%     ] c90_s228KiB.sqlite[2/6] [====================84%     ] c90_s228KiB.sqlite[2/6] [====================85%     ] c90_s228KiB.sqlite[2/6] [=====================86%    ] c90_s228KiB.sqlite[2/6] [=====================87%    ] c90_s228KiB.sqlite[2/6] [=====================88%    ] c90_s228KiB.sqlite[2/6] [=====================89%    ] c90_s228KiB.sqlite[2/6] [======================90%   ] c90_s228KiB.sqlite[2/6] [======================91%   ] c90_s228KiB.sqlite[2/6] [======================92%   ] c90_s228KiB.sqlite[2/6] [=======================93%  ] c90_s228KiB.sqlite[2/6] [=======================94%  ] c90_s228KiB.sqlite[2/6] [=======================95%  ] c90_s228KiB.sqlite[2/6] [=======================96%  ] c90_s228KiB.sqlite[2/6] [========================97% ] c90_s228KiB.sqlite[2/6] [========================98% ] c90_s228KiB.sqlite[2/6] [========================99% ] c90_s228KiB.sqlite[2/6] [========================100%] c90_s228KiB.sqlite[2/6] [========================100%] c90_s228KiB.sqlite
+[3/6] Executing 'cuda_api_sum' stats report
+
+ Time (%)  Total Time (ns)  Num Calls  Avg (ns)   Med (ns)   Min (ns)  Max (ns)  StdDev (ns)                Name               
+ --------  ---------------  ---------  ---------  ---------  --------  --------  -----------  ---------------------------------
+     90.3       6844557007       9671   707740.4   127664.0      1424   5493614     999031.7  cudaEventSynchronize             
+      6.7        503844108       1312   384027.5   278512.5      4316   2397162     257094.9  cudaMemcpy                       
+      0.8         61040866       3439    17749.6     2420.0      1041    275418      34730.0  cudaDeviceSynchronize            
+      0.6         42598027      11530     3694.5     2550.0      2074   4895126      45820.5  cudaLaunchKernel                 
+      0.5         34998109       4363     8021.6      100.0        92    471630      42887.0  cudaMalloc                       
+      0.4         30352087        335    90603.2    11910.0      3331   3715293     220356.4  cudaFree                         
+      0.3         24801035       9671     2564.5     2149.0      1853     30722       1330.2  cudaMemcpyToSymbolAsync          
+      0.2         15641757       9671     1617.4     1475.0      1261     31967        644.0  cudaEventRecord                  
+      0.1          8647640       1133     7632.5     4781.0       822    381882      15781.8  cudaStreamSynchronize            
+      0.0          3036003        296    10256.8     8577.0      1614     41794       6688.3  cudaMemsetAsync                  
+      0.0          2476698        329     7528.0     6312.0      1655     41440       3947.6  cudaMemcpyAsync                  
+      0.0          1390823          2   695411.5   695411.5      4724   1386099     976779.6  cudaHostAlloc                    
+      0.0          1240464          1  1240464.0  1240464.0   1240464   1240464          0.0  cudaGetDeviceProperties_v2_v12000
+      0.0           767095         44    17434.0    12583.5      6687    180047      25859.7  cudaMemcpyToSymbol               
+      0.0           336841          3   112280.3    68868.0      4316    263657     135010.8  cudaFreeHost                     
+      0.0           215180          2   107590.0   107590.0     15029    200151     130901.0  cudaStreamCreate                 
+      0.0           174092        419      415.5      292.0        97     12926        760.5  cuGetProcAddress_v2              
+      0.0           150084       1720       87.3       49.0        31      1480        112.0  cuMemRetainAllocationHandle      
+      0.0            28756          2    14378.0    14378.0      6774     21982      10753.7  cudaMemset                       
+      0.0            12933          1    12933.0    12933.0     12933     12933          0.0  cudaEventCreate                  
+      0.0             9308          1     9308.0     9308.0      9308      9308          0.0  cudaMallocHost                   
+      0.0             8459          2     4229.5     4229.5      3578      4881        921.4  cudaStreamDestroy                
+      0.0             3712          1     3712.0     3712.0      3712      3712          0.0  cuInit                           
+      0.0             2013          1     2013.0     2013.0      2013      2013          0.0  cudaEventDestroy                 
+      0.0              178          1      178.0      178.0       178       178          0.0  cuModuleGetLoadingMode           
+
+[4/6] Executing 'cuda_gpu_kern_sum' stats report
+
+ Time (%)  Total Time (ns)  Instances  Avg (ns)   Med (ns)   Min (ns)  Max (ns)  StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  ---------  ---------  --------  --------  -----------  ----------------------------------------------------------------------------------------------------
+     41.8       2865925383        796  3600408.8  3684441.0   3338232   3705880     149202.8  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+     13.2        902639990        804  1122686.6  1145821.5   1034430   1171997      46162.8  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+     13.2        902556836        804  1122583.1  1145085.5   1033182   1168094      45751.2  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+     13.2        901944000        804  1121820.9  1145245.5   1035262   1165726      45587.4  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+     12.4        849827774        804  1056999.7  1080702.0    975006   1094749      43743.9  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+      1.4         97297037        804   121016.2   123680.0    112192    125471       4858.4  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+      1.4         96746630        804   120331.6   123136.0    108704    129312       5934.9  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+      1.0         65693097        804    81707.8    83296.0     74848     85120       3270.3  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+      0.8         51535158        796    64742.7    65280.0     56384     71552       3193.5  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+      0.4         26764173        199   134493.3   134400.0    131904    138304       1208.7  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairCo…
+      0.4         26016431        804    32358.7    32544.0     28672     35423       1378.6  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+      0.4         25970287          8  3246285.9  3323067.0   3012473   3330841     144318.8  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+      0.2         16145183        804    20081.1    20384.0     18176     21375        698.0  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+      0.1          7737359          8   967169.9   990397.5    897246    990878      43021.6  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+      0.0          3159862         72    43887.0    45408.0      1536     50815       9309.8  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::Impl::ViewCo…
+      0.0          3079868       1206     2553.8     2560.0      1888      2944        161.9  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<AtomVecKokkos_UnPack…
+      0.0          2719773        199    13667.2    13632.0     12928     15296        340.2  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::FixNVE…
+      0.0          2506681          8   313335.1   320031.0    292352    320735      12936.7  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::PairSN…
+      0.0          1784252        201     8876.9     8864.0      8672      9312        121.1  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelReduce<Kokkos::Impl::…
+      0.0          1724348        200     8621.7     8608.0      8384      9056        115.3  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelReduce<Kokkos::Impl::…
+      0.0           885854        200     4429.3     4416.0      4256      4704         80.3  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<AtomVecKokkos_PackCo…
+      0.0           689375        201     3429.7     3424.0      3296      3680         70.5  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Zero<Kokkos::View<do…
+      0.0           637663          8    79707.9    80528.0     74016     83872       3006.4  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelReduce<Kokkos::Impl::…
+      0.0           544256          2   272128.0   272128.0    266592    277664       7829.1  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::NPairK…
+      0.0           510591          8    63823.9    20256.0      1408    380351     128850.7  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::Impl::ViewVa…
+      0.0           380192          2   190096.0   190096.0    184832    195360       7444.4  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelReduce<Kokkos::Impl::…
+      0.0           115263         48     2401.3     2432.0      1408      2656        197.4  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::Impl::ViewCo…
+      0.0           105183         48     2191.3     2208.0      1408      2336        148.6  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::Impl::ViewCo…
+      0.0            63136          1    63136.0    63136.0     63136     63136          0.0  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::NPairH…
+      0.0            40896          7     5842.3     5856.0      4864      6464        629.2  void cub::CUB_200700_900_NS::DeviceMergeSortPartitionKernel<Kokkos::Experimental::Impl::RandomAcces…
+      0.0            31424          7     4489.1     4448.0      4352      4896        183.6  void cub::CUB_200700_900_NS::DeviceMergeSortMergeKernel<cub::CUB_200700_900_NS::DeviceMergeSortPoli…
+      0.0            29984          6     4997.3     5008.0      4864      5088         79.5  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<BuildBorderListFunct…
+      0.0            26016          3     8672.0     8736.0      8128      9152        515.0  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelReduce<Kokkos::Impl::…
+      0.0            24160          1    24160.0    24160.0     24160     24160          0.0  desul::<unnamed>::init_lock_arrays_cuda_kernel()                                                    
+      0.0            23104         16     1444.0     1456.0      1184      1760        181.0  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::Impl::ViewFi…
+      0.0            20256          2    10128.0    10128.0      9984     10272        203.6  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelReduce<Kokkos::Impl::Com…
+      0.0            19072          1    19072.0    19072.0     19072     19072          0.0  void cub::CUB_200700_900_NS::DeviceMergeSortBlockSortKernel<cub::CUB_200700_900_NS::DeviceMergeSort…
+      0.0            18431          6     3071.8     3023.5      2944      3232        116.3  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<AtomVecAtomicKokkos_…
+      0.0            16672          6     2778.7     2784.0      2720      2848         51.3  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<AtomVecAtomicKokkos_…
+      0.0            11488          1    11488.0    11488.0     11488     11488          0.0  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::FixNVE…
+      0.0             9856          2     4928.0     4928.0      4864      4992         90.5  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::BinSort<Kokk…
+      0.0             9311          2     4655.5     4655.5      3776      5535       1243.8  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelScan<Kokkos::BinSort<Kok…
+      0.0             7648          2     3824.0     3824.0      3808      3840         22.6  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::BinSort<Kokk…
+      0.0             7488          1     7488.0     7488.0      7488      7488          0.0  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::FixNVE…
+      0.0             5824          1     5824.0     5824.0      5824      5824          0.0  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::Neighb…
+      0.0             5728          1     5728.0     5728.0      5728      5728          0.0  void Kokkos::Impl::cuda_parallel_launch_constant_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::NPairK…
+      0.0             5280          2     2640.0     2640.0      2624      2656         22.6  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::BinSort<Kokk…
+      0.0             4704          2     2352.0     2352.0      2336      2368         22.6  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::BinSort<Kokk…
+      0.0             4448          2     2224.0     2224.0      2208      2240         22.6  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::BinSort<Kokk…
+      0.0             4352          2     2176.0     2176.0      2144      2208         45.3  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::BinSort<Kokk…
+      0.0             3776          1     3776.0     3776.0      3776      3776          0.0  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<DomainPBCFunctor<Kok…
+      0.0             3488          1     3488.0     3488.0      3488      3488          0.0  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::BinSort<Kokk…
+      0.0             3360          1     3360.0     3360.0      3360      3360          0.0  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::BinSort<Kokk…
+      0.0             3232          1     3232.0     3232.0      3232      3232          0.0  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::AtomKokko…
+      0.0             3072          1     3072.0     3072.0      3072      3072          0.0  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<LAMMPS_NS::AtomKokko…
+      0.0             2112          1     2112.0     2112.0      2112      2112          0.0  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::Impl::ViewFi…
+      0.0             1664          1     1664.0     1664.0      1664      1664          0.0  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<MemsetZeroFunctor<Ko…
+      0.0             1472          1     1472.0     1472.0      1472      1472          0.0  Kokkos::Impl::<unnamed>::query_cuda_kernel_arch(int *)                                              
+      0.0             1408          1     1408.0     1408.0      1408      1408          0.0  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::Impl::ViewVa…
+      0.0             1248          1     1248.0     1248.0      1248      1248          0.0  void Kokkos::Impl::cuda_parallel_launch_local_memory<Kokkos::Impl::ParallelFor<Kokkos::Impl::ViewFi…
+
+[5/6] Executing 'cuda_gpu_mem_time_sum' stats report
+
+ Time (%)  Total Time (ns)  Count  Avg (ns)  Med (ns)  Min (ns)  Max (ns)  StdDev (ns)           Operation          
+ --------  ---------------  -----  --------  --------  --------  --------  -----------  ----------------------------
+     58.6        201446091    841  239531.6  193343.0      2400   1218621     187061.5  [CUDA memcpy Device-to-Host]
+     41.2        141464576  10515   13453.6    1504.0       704   1804956      73874.7  [CUDA memcpy Host-to-Device]
+      0.2           617086    298    2070.8    1552.0       704     20672       2606.4  [CUDA memset]               
+
+[6/6] Executing 'cuda_gpu_mem_size_sum' stats report
+
+ Total (MB)  Count  Avg (MB)  Med (MB)  Min (MB)  Max (MB)  StdDev (MB)           Operation          
+ ----------  -----  --------  --------  --------  --------  -----------  ----------------------------
+   2414.734    841     2.871     3.954     0.000     3.954        1.451  [CUDA memcpy Device-to-Host]
+   1276.506  10515     0.121     0.004     0.000     3.954        0.642  [CUDA memcpy Host-to-Device]
+    878.830    298     2.949     0.659     0.000    60.817        8.096  [CUDA memset]               
+
+Generated:
+	/scratch/local/run/c90_s228KiB.nsys-rep
+	/scratch/local/run/c90_s228KiB.sqlite
