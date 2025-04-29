@@ -1,0 +1,112 @@
+LAMMPS (4 Feb 2025 - Development)
+KOKKOS mode with Kokkos version 4.5.1 is enabled (../kokkos.cpp:72)
+  will use up to 1 GPU(s) per node
+package kokkos
+package kokkos neigh half neigh/qeq full newton on comm device pair/only off
+# Pure HNS crystal, ReaxFF tests for benchmarking LAMMPS
+# See README for more info
+
+units		real
+atom_style	charge
+atom_modify sort  100 0.0
+dimension       3
+boundary        p p p
+box               tilt large
+
+The 'box' command has been removed and will be ignored
+
+
+read_data  	data.hns
+Reading data file ...
+  triclinic box = (0 0 0) to (22.326 11.1412 13.778966) with tilt (0 -5.02603 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  304 atoms
+  reading velocities ...
+  304 velocities
+  read_data CPU = 0.009 seconds
+replicate         $x $y $z bbox
+replicate         4 $y $z bbox
+replicate         4 4 $z bbox
+replicate         4 4 6 bbox
+Replication is creating a 4x4x6 = 96 times larger system...
+  triclinic box = (0 0 0) to (89.304 44.5648 82.673796) with tilt (0 -30.15618 0)
+  1 by 1 by 1 MPI processor grid
+  bounding box image = (0 -1 -1) to (0 1 1)
+  bounding box extra memory = 0.03 MB
+  average # of replicas added to proc = 96.00 out of 96 (100.00%)
+  29184 atoms
+  replicate CPU = 0.004 seconds
+
+pair_style        reaxff NULL
+pair_coeff	* * ffield.reax.hns C H O N
+
+compute   	reax all pair reaxff
+
+neighbor	1.0 bin
+neigh_modify      every 20 delay 0 check no
+
+timestep        0.1
+
+thermo_style      custom step temp pe press evdwl ecoul vol
+thermo_modify	norm yes
+thermo	  	100
+
+velocity          all create 300.0 41279 loop geom
+
+fix		1 all nve
+fix             2 all qeq/reaxff 1 0.0 10.0 1e-6 reaxff
+
+run  		$t
+run  		200
+Neighbor list info ...
+  update: every = 20 steps, delay = 0 steps, check = no
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 11
+  ghost atom cutoff = 11
+  binsize = 11, bins = 11 5 8
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reaxff/kk, perpetual
+      attributes: half, newton off, ghost, kokkos_device
+      pair build: half/bin/newtoff/ghost/kk/device
+      stencil: full/ghost/bin/3d
+      bin: kk/device
+  (2) fix qeq/reaxff/kk, perpetual
+      attributes: full, newton off, kokkos_device
+      pair build: full/bin/kk/device
+      stencil: full/bin/3d
+      bin: kk/device
+Per MPI rank memory allocation (min/avg/max) = 426.4 | 426.4 | 426.4 Mbytes
+   Step          Temp          PotEng         Press          E_vdwl         E_coul         Volume    
+         0   300           -113.27833      438.89835     -111.57687     -1.7014647      329026.41    
+       100   302.2786      -113.28439      9180.3518     -111.58572     -1.6986739      329026.41    
+       200   293.71052     -113.25874      8539.9642     -111.56035     -1.6983937      329026.41    
+Loop time of 2.00894 on 1 procs for 200 steps with 29184 atoms
+
+Performance: 0.860 ns/day, 27.902 hours/ns, 99.555 timesteps/s, 2.905 Matom-step/s
+98.9% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.81469    | 0.81469    | 0.81469    |   0.0 | 40.55
+Neigh   | 0.031066   | 0.031066   | 0.031066   |   0.0 |  1.55
+Comm    | 0.051221   | 0.051221   | 0.051221   |   0.0 |  2.55
+Output  | 0.00025751 | 0.00025751 | 0.00025751 |   0.0 |  0.01
+Modify  | 1.1084     | 1.1084     | 1.1084     |   0.0 | 55.17
+Other   |            | 0.003325   |            |       |  0.17
+
+Nlocal:          29184 ave       29184 max       29184 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          40170 ave       40170 max       40170 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    8.46847e+06 ave 8.46847e+06 max 8.46847e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  1.43294e+07 ave 1.43294e+07 max 1.43294e+07 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 14329376
+Ave neighs/atom = 491.0011
+Neighbor list builds = 10
+Dangerous builds not checked
+Total wall time: 0:00:02

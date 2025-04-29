@@ -1,0 +1,23 @@
+diff --git a/core/src/Cuda/Kokkos_Cuda_KernelLaunch.hpp b/core/src/Cuda/Kokkos_Cuda_KernelLaunch.hpp
+index f86c79000..abe7a4476 100644
+--- a/core/src/Cuda/Kokkos_Cuda_KernelLaunch.hpp
++++ b/core/src/Cuda/Kokkos_Cuda_KernelLaunch.hpp
+@@ -680,6 +680,18 @@ struct CudaParallelLaunchImpl<
+
+       desul::ensure_cuda_lock_arrays_on_device();
+
++      // custom compile-time "hack" to manually set the carveout
++      // 0 = prefer L1, 100 = prefer shared
++      // See https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__EXECUTION.html#group__CUDART__EXECUTION_1g317e77d2657abf915fd9ed03e75f3eb0
++      // for more information
++#ifdef SET_CARVEOUT
++#if (SET_CARVEOUT < 0) || (SET_CARVEOUT > 100)
++#error Invalid carveout setting
++#endif
++       cudaFuncSetAttribute(base_t::get_kernel_func(), cudaFuncAttributePreferredSharedMemoryCarveout,
++                             SET_CARVEOUT);
++#endif
++
+       // Invoke the driver function on the device
+       base_t::invoke_kernel(driver, grid, block, shmem, cuda_instance);
+
