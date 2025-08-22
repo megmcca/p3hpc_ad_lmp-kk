@@ -1,0 +1,19 @@
+685,693d684
+<     
+<       ///////////////////////////////////////////////////////
+<       // Set up cache carveout output for CUPTI interface //
+<       ///////////////////////////////////////////////////////
+<       static int carveout = [] () -> int {
+<       const char* env_val = std::getenv("KERNEL_CARVEOUT");
+<       if (!env_val) {
+<         return -1;
+<       }
+695,702d685
+<       int value = std::atoi(env_val);
+<       return std::clamp(value, 0, 100);
+<       }();
+< 
+<       if (carveout != -1)
+<         cudaFuncSetAttribute(base_t::get_kernel_func(), cudaFuncAttributePreferredSharedMemoryCarveout, carveout);
+<       ///////////////////////////////////////////////////////
+< 

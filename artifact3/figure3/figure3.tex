@@ -1,0 +1,29 @@
+\begin{figure}
+    \centering
+    %\includegraphics[width=\linewidth]{results//cache-carveout-h100-hbm3/h100_carveout_placeholder.png}
+\begin{tikzpicture}
+\begin{axis}[
+    thick,
+    %xmode=log,
+    %ymode=log,
+    legend style={at={(1.0,0.25)},anchor=east},
+    xlabel={Shared memory carveout [KiB]},
+    title={Perf. relative to ``default'' carveout},
+    height=2in,
+    ymin=-0.05,
+    width=\linewidth,
+]
+    \addplot+[mark=*] table[y index=1] {carveout_data_h100_hbm3_new.txt};
+    \addlegendentry{ComputeUi};
+    \addplot+[mark=square*] table[y index=2] {carveout_data_h100_hbm3_new.txt};
+    \addlegendentry{ComputeYi};
+    \addplot+[mark=diamond*] table[y index=3] {carveout_data_h100_hbm3_new.txt};
+    \addlegendentry{ComputeFusedDeidrjAll};
+    \addplot+[mark=triangle*] table[y index=4] {carveout_data_h100_hbm3_new.txt};
+    \addlegendentry{PairComputeLJCut};
+\end{axis}
+\end{tikzpicture}
+    \caption{Performance of the \texttt{ComputeUi}, \texttt{ComputeYi}, and \texttt{ComputeFusedDeidrjAll} kernels in SNAP and the pairwise force kernel \texttt{PairComputeLJCut} in Lennard-Jones as a function of the shared memory carveout on NVIDIA H100-HBM3-SXM. The performance is normalized against the ``default'' value selected at runtime. All runs were at 1,024,000 atoms.}
+    \label{fig:cache_carveout}
+\end{figure}
+
