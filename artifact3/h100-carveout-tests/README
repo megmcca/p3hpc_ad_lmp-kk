@@ -4,17 +4,15 @@ The cache carveout results shown in the manuscript at https://arxiv.org/abs/2508
 All LAMMPS tests were run using the July 22nd, 2025 "stable" release (https://github.com/lammps/lammps/releases/tag/stable_22Jul2025).
 
 Public versions of the CUDA toolkit contain example code for using the NVIDIA CUPTI interface for kernel tracing, which is in the directory `cupti_trace_injection`.
-This code uses library injection to spit out kernel timings for every kernel (along with other API calls) as a part of stdout.
+The example code uses library injection to spit out kernel timings for every kernel (along with other API calls) as a part of stdout.
+Please use this code in the following steps to obtain kernel tracing output for LAMMPS.
 
 To perform cache carveout on a LAMMPS simulation (located at e.g. ~/lammps):
- - Copy Kokkos_Cuda_LaunchKernel.hpp from this directory into lammps/lib/kokkos/core/Cuda/src (see "diff_carveout_stable22July2025.txt for changed lines")
-- TODO (? anything changing in pair_snap_kokkos.h like last time?)
+- Copy Kokkos_Cuda_LaunchKernel.hpp from this directory into lammps/lib/kokkos/core/Cuda/src (see "diff_carveout_stable22July2025.txt for changed lines")
 - Set the environment variable KERNEL_CARVEOUT to a desired value, examples below
-- Run TODO (? what is the command or setup to use library injection on a LAMMPS exe?) for each of the three benchmarks
-- Collect outputs, see notes below
+- Run each of the three benchmark commands in run_*.sh and collect stdout
+- Parse per-kernel/benchmark outputs using commands from get_kernel.sh, which extracts total runtimes (summed over the entire application) 
 
-Each runscript, run-*.sh, show the run commands for each of the three interatomic potential benchmarks.
-The script get_kernel.sh shows how the total runtimes (summed over the entire application) were extracted from the output files.
 Note that the outputs from CUPTI can be many megabytes of plain text.
 
 Changing carveout values
@@ -23,7 +21,7 @@ Carveout values are integers from 0 to 100 (corresponding to percentages).
 The carveout values that were used on H100 for this work were:
 
 KERNEL_CARVEOUT | Shared memory carveout
-10  | 32KiB
+10 | 32KiB
 20 | 64KiB
 30 | 100KiB
 50 | 132KiB
