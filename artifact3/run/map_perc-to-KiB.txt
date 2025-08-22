@@ -1,8 +1,0 @@
-SET_CARVEOUT value -> shared memory value
-10 -> 32KiB
-20 -> 64KiB
-30 -> 100KiB
-50 -> 132KiB
-60 -> 164KiB
-80 -> 196KiB
-90 -> 228KiB
