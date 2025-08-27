@@ -1,0 +1,43 @@
+Strong scaling tests, information 
+=================================
+All LAMMPS tests were run using the July 22nd, 2025 "stable" release (https://github.com/lammps/lammps/releases/tag/stable_22Jul2025) compiled using the included Kokkos library (v4.6.02).
+
+IMPORTANT: 
+This README contains environment settings, modules, and other details for strong scaling runs on ALCF's Aurora machine and OLCF's Frontier machine. 
+Environment settings and modules for scaling on NNSA's El Capitan machine and NVIDIA's Eos machine cannot be released publicly.
+Please contact the manuscript authors with further questions.
+
+
+Aurora, environment and build
+=============================
+Modules used:
+gcc/13.3.0
+oneapi/release/2025.0.5
+
+Environment variable commands:
+export IGC_EnableGEPLSRMulExpr=1
+export IGC_RunGEPLSRAfterLICM=1
+export IGC_GEPLSRThresholdRatio=10000
+export IGC_DisableRecompilation=1
+
+Aurora-specific build instructions:
+- Copy strong-scaling/sna_kokkos.h and strong-scaling/sna_kokkos_impl.h into your lammps/src/KOKKOS directory
+- Copy strong-scaling/Makefile.aurora_kokkos into your lammps/src/MAKE/MACHINE directory
+- Load the modules and exported environment variables listed above, then compile in lammps/src using the 'make aurora_kokkos -jN' command (where N = number of processors)
+
+
+Frontier, environment and build
+===============================
+Modules used:
+cray-mpich/8.1.31 
+amd/6.2.0 
+rocm/6.2.0
+
+No special build instructions required. The standard LAMMPS Makefile for Frontier has been included in strong-scaling/Makefile.frontier_kokkos for inspection.
+
+
+Notes on figure6
+================
+The directory figure6 contains the code and data required to generate the 6th figure in the manuscript.
+It was generated using the LaTeX libraries 'tikz' and 'pgfplots'.
+Please see the README in the 'artifact1' directory for further information on these libraries and settings used for this work.

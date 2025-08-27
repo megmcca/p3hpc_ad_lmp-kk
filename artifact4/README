@@ -1,1 +1,7 @@
 WIP
+
+Notes on figure4
+================
+The directory figure4 contains the code and data required to generate the 4th figure in the manuscript.
+It was generated using the LaTeX libraries 'tikz' and 'pgfplots'.
+Please see the README in the 'artifact1' directory for further information on these libraries and settings used for this work.

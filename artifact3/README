@@ -1,0 +1,42 @@
+Running cache carveout tests on NVIDIA GPUs for LAMMPS kernels
+==============================================================
+The cache carveout results shown in the manuscript at https://arxiv.org/abs/2508.13523 were obtained using the public NVHPC 25.5 container.
+All LAMMPS tests were run using the July 22nd, 2025 "stable" release (https://github.com/lammps/lammps/releases/tag/stable_22Jul2025).
+
+Public versions of the CUDA toolkit contain example code for using the NVIDIA CUPTI interface for kernel tracing, which is in the directory `cupti_trace_injection`.
+The example code uses library injection to spit out kernel timings for every kernel (along with other API calls) as a part of stdout.
+Please follow the instructions included in the example code in the following steps to obtain kernel tracing output for LAMMPS.
+
+To perform cache carveout on a LAMMPS simulation (located at e.g. ~/lammps):
+- Copy h100-carveout-tests/Kokkos_Cuda_LaunchKernel.hpp into your lammps/lib/kokkos/core/Cuda/src (see "diff_carveout_stable22July2025.txt for changed lines")
+- Set the environment variable KERNEL_CARVEOUT to a desired value, examples below
+- Run each of the three benchmark commands in h100-carveout-tests/run_*.sh and collect stdout
+- Parse per-kernel/benchmark outputs using commands from h100-carveout-tests/get_kernel.sh, which extracts total runtimes (summed over the entire application) 
+
+Note that the outputs from CUPTI can be many megabytes of plain text.
+
+Changing carveout values
+========================
+Carveout values are integers from 0 to 100 (corresponding to percentages).
+The carveout values that were used on H100 for this work were:
+
+KERNEL_CARVEOUT | Shared memory carveout
+10 | 32KiB
+20 | 64KiB
+30 | 100KiB
+50 | 132KiB
+60 | 164KiB
+80 | 192KiB
+90 | 228KiB
+
+The values above are listed here: https://docs.nvidia.com/cuda/hopper-tuning-guide/index.html#unified-shared-memory-l1-texture-cache
+We intentionally skipped 0 due to the comment "CUDA reserves 1 KB of shared memory per thread block."
+We also skipped 8 and 16 because they were particularly small granularities and were much smaller than the smallest available shared memory on other GPUs, which is 64 KiB on both MI250X and MI300A.
+
+Notes on figure3
+================
+The directory figure3 contains the code and data required to generate the 3rd figure in the manuscript.
+It was generated using the LaTeX libraries 'tikz' and 'pgfplots'.
+Please see the README in the 'artifact1' directory for further information on these libraries and settings used for this work.
+
+

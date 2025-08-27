@@ -1,0 +1,49 @@
+# Pure HNS crystal, ReaxFF tests for benchmarking LAMMPS
+# See README for more info
+
+units		real
+atom_style	charge
+dimension       3
+boundary        p p p
+box               tilt large
+
+include hns_lattice.in
+region box prism 0 $(v_L*22.326) 0 $(v_L*11.1412) 0 $(v_L*13.778966) 0.0 $(-v_L*5.02603) 0.0 units box
+create_box 4 box
+include hns_create_atoms.in
+
+set type 1 charge 0.024
+set type 2 charge 0.25
+set type 3 charge -0.148
+set type 4 charge -0.01
+
+pair_style        reaxff NULL
+pair_coeff	* * ffield.reax.hns C H O N
+mass 1 12
+mass 2 1
+mass 3 16
+mass 4 14
+
+
+
+compute   	reax all pair reaxff
+
+neighbor	1.0 bin
+neigh_modify      every 20 delay 0 check no
+
+timestep        0.1
+
+thermo_style      custom step temp pe press evdwl ecoul vol spcpu
+thermo_modify	norm yes
+thermo	  	1000
+
+velocity          all create 300.0 41279 loop geom
+
+fix		1 all nve
+fix             2 all qeq/reaxff 1 0.0 10.0 1e-6 reaxff
+
+variable nsteps equal 10000000
+fix stop all halt 10 tlimit > 10 error continue
+run		${nsteps}
+fix stop all halt 10 tlimit > 60 error soft
+run		${nsteps}

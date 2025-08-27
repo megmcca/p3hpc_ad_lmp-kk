@@ -1,0 +1,84 @@
+LAMMPS (4 Feb 2025 - Development - patch_4Feb2025-76-gf0bc9ddcc9-modified)
+KOKKOS mode with Kokkos version 4.5.1 is enabled (../kokkos.cpp:72)
+  will use up to 1 GPU(s) per node
+package kokkos
+package kokkos neigh full neigh/qeq full newton off comm device pair/only off neigh/transpose on
+# 3d Lennard-Jones melt
+
+units		lj
+atom_style	atomic
+
+lattice		fcc 0.8442
+Lattice spacing in x,y,z = 1.6795962 1.6795962 1.6795962
+region		box block 0 $x 0 $y 0 $z
+region		box block 0 320 0 $y 0 $z
+region		box block 0 320 0 320 0 $z
+region		box block 0 320 0 320 0 640
+create_box	1 box
+Created orthogonal box = (0 0 0) to (537.47078 537.47078 1074.9416)
+  8 by 8 by 32 MPI processor grid
+create_atoms	1 box
+Created 262144000 atoms
+  using lattice units in orthogonal box = (0 0 0) to (537.47078 537.47078 1074.9416)
+  create_atoms CPU = 0.033 seconds
+mass		1 1.0
+
+velocity	all create 1.44 87287 loop geom
+
+pair_style	lj/cut 2.5
+pair_coeff	1 1 1.0 1.0 2.5
+
+neighbor	0.3 bin
+neigh_modify	delay 0 every 20 check no
+
+fix		1 all nve
+thermo          10000
+
+run		$t
+run		1000
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 20 steps, delay = 0 steps, check = no
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 2.8
+  ghost atom cutoff = 2.8
+  binsize = 2.8, bins = 192 192 384
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut/kk, perpetual
+      attributes: full, newton off, kokkos_device
+      pair build: full/bin/kk/device
+      stencil: full/bin/3d
+      bin: kk/device
+Per MPI rank memory allocation (min/avg/max) = 24.98 | 25.27 | 25.74 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   1.44          -6.7733681      0             -4.6133681     -5.0196693    
+      1000   0.70383418    -5.6762124      0             -4.6204611      0.70436878   
+Loop time of 0.781084 on 2048 procs for 1000 steps with 262144000 atoms
+
+Performance: 553077.596 tau/day, 1280.272 timesteps/s, 335.616 Gatom-step/s
+164.2% CPU use with 2048 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0092032  | 0.0099086  | 0.015985   |   0.4 |  1.27
+Neigh   | 0.025756   | 0.041996   | 0.09948    |   6.9 |  5.38
+Comm    | 0.44915    | 0.51391    | 0.54315    |   2.6 | 65.79
+Output  | 0.00039327 | 0.01608    | 0.016299   |   0.5 |  2.06
+Modify  | 0.18254    | 0.19787    | 0.21158    |   1.5 | 25.33
+Other   |            | 0.00132    |            |       |  0.17
+
+Nlocal:         128000 ave      128417 max      127597 min
+Histogram: 8 42 132 376 505 508 318 118 39 2
+Nghost:        47515.4 ave       47769 max       47261 min
+Histogram: 18 53 154 324 467 466 330 156 65 15
+Neighs:              0 ave           0 max           0 min
+Histogram: 2048 0 0 0 0 0 0 0 0 0
+FullNghs:  9.59647e+06 ave 9.64611e+06 max 9.54102e+06 min
+Histogram: 4 26 94 290 473 488 409 192 60 12
+
+Total # of neighbors = 1.965357e+10
+Ave neighs/atom = 74.97242
+Neighbor list builds = 50
+Dangerous builds not checked
+Total wall time: 0:00:01

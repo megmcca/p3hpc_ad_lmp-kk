@@ -1,1 +1,58 @@
-WIP
+Notes on the generation of all figures
+======================================
+All figures shown in this manuscript were generated using the LaTeX libraries 'tikz' and 'pgfplots'. More information on both can be found at:
+https://tikz.dev/
+https://tikz.dev/pgfplots/
+
+Import and settings commands
+============================
+\usepackage{microtype}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{external}
+\usepgfplotslibrary{colorbrewer}
+\pgfplotsset{cycle list/Set1}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{
+    tick align=outside,
+    tick pos=left,
+    xmajorgrids,
+    x grid style={white},
+    ymajorgrids,
+    y grid style={white},
+    axis line style={white},
+    axis background/.style={fill=white!89.803921568627459!black},
+    legend style={draw=none, fill=none},
+    legend cell align=left,
+}
+\pgfkeys{/pgf/number format/.cd, 1000 sep={\,}}
+
+\pgfplotsset{
+    log x ticks with fixed point/.style={
+        xticklabel={
+            \pgfkeys{/pgf/fpu=true}
+            \pgfmathparse{2^\tick}%
+            \pgfmathprintnumber[fixed relative, precision=4]{\pgfmathresult}
+            \pgfkeys{/pgf/fpu=false}
+        }
+    },
+    log10 x ticks with fixed point/.style={
+        xticklabel={
+            \pgfkeys{/pgf/fpu=true}
+            \pgfmathparse{10^\tick}%
+            \pgfmathprintnumber[fixed relative, precision=3]{\pgfmathresult}
+            \pgfkeys{/pgf/fpu=false}
+        }
+    },
+    log y ticks with fixed point/.style={
+        yticklabel={
+            \pgfkeys{/pgf/fpu=true}
+            \pgfmathparse{2^\tick}%
+            \pgfmathprintnumber[fixed relative, precision=4]{\pgfmathresult}
+            \pgfkeys{/pgf/fpu=false}
+        }
+    }
+}
+
