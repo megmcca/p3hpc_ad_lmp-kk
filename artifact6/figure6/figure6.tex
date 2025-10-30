@@ -1,9 +1,67 @@
+\def\regenfigs{0}
+\documentclass[anonymous,sigconf,9pt]{acmart}
+
+\usepackage{microtype}
+\if\regenfigs1
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{external}
+\usepgfplotslibrary{colorbrewer}
+\pgfplotsset{cycle list/Set1}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{
+    tick align=outside,
+    tick pos=left,
+    xmajorgrids,
+    x grid style={white},
+    ymajorgrids,
+    y grid style={white},
+    axis line style={white},
+    axis background/.style={fill=white!89.803921568627459!black},
+    legend style={draw=none, fill=none},
+    legend cell align=left,
+}
+\pgfkeys{/pgf/number format/.cd, 1000 sep={\,}}
+
+\pgfplotsset{
+    log x ticks with fixed point/.style={
+        xticklabel={
+            \pgfkeys{/pgf/fpu=true}
+            \pgfmathparse{2^\tick}%
+            \pgfmathprintnumber[fixed relative, precision=4]{\pgfmathresult}
+            \pgfkeys{/pgf/fpu=false}
+        }
+    },
+    log10 x ticks with fixed point/.style={
+        xticklabel={
+            \pgfkeys{/pgf/fpu=true}
+            \pgfmathparse{10^\tick}%
+            \pgfmathprintnumber[fixed relative, precision=3]{\pgfmathresult}
+            \pgfkeys{/pgf/fpu=false}
+        }
+    },
+    log y ticks with fixed point/.style={
+        yticklabel={
+            \pgfkeys{/pgf/fpu=true}
+            \pgfmathparse{2^\tick}%
+            \pgfmathprintnumber[fixed relative, precision=4]{\pgfmathresult}
+            \pgfkeys{/pgf/fpu=false}
+        }
+    }
+}
+\fi
+
+\begin{document}
 
 \definecolor{eos}{RGB}{35,139,69}
+\definecolor{alps}{RGB}{35,139,69}
 \definecolor{aurora}{RGB}{107,174,214}
 \definecolor{frontier}{RGB}{239,59,44}
 \definecolor{elcap}{RGB}{253,141,60}
-\begin{figure*}[h!]
+\begin{figure*}[tbp]
+\if\regenfigs1
 \begin{tikzpicture}[overlay=false,>=latex]
     \begin{groupplot}[
             /tikz/overlay=false,
@@ -52,9 +110,13 @@
             \addplot+[mark=*,frontier]  table[y index=2] {results_frontier/lj_1e9.txt};
             \addplot+[mark=*,frontier]  table[y index=2] {results_frontier/lj_1e11.txt};
             
-            \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*0.8192}] {results_eos/lj_8M.txt};
-            \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.05}] {results_eos/lj_1B.txt};
-            \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.342}] {results_eos/lj_128B.txt};
+            % \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*0.8192}] {results_eos/lj_8M.txt};
+            % \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.05}] {results_eos/lj_1B.txt};
+            % \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.342}] {results_eos/lj_128B.txt};
+            
+            \addplot+[mark=square*,alps]  table[y expr={\thisrowno{2}*0.8192}] {results_alps/lj-8M-4gpus.txt};
+            \addplot+[mark=square*,alps]  table[y expr={\thisrowno{2}*1.05}] {results_alps/lj-1B-4gpus.txt};
+            \addplot+[mark=square*,alps]  table[y expr={\thisrowno{2}*1.342}] {results_alps/lj-128B-4gpus.txt};
 
             \addplot+[mark=triangle*,aurora]  table[y index=2] {results_aurora/lj_1e9.txt};
             \addplot+[mark=triangle*,aurora]  table[y index=2] {results_aurora/lj_1e11.txt};
@@ -69,9 +131,11 @@
                 legend columns=9,
                 title={b) ReaxFF},
             ]
-            \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*0.9339}] {results_eos/hns_1M.txt};
-            \addlegendentry{Eos (4\(\times\)H100)};
-            \addplot+[mark=*,frontier]  table[y index=2] {results_frontier/hns_1e6.txt};
+            %\addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*0.9339}] {results_eos/hns_1M.txt};
+            %\addlegendentry{Eos (4\(\times\)H100)};
+            %\addplot+[mark=*,frontier]  table[y index=2] {results_frontier/hns_1e6.txt};
+            \addplot+[mark=square*,alps]  table[y expr={\thisrowno{2}*0.9339}] {results_alps/reaxff-1M-4gpus.txt};
+            \addlegendentry{Alps (4\(\times\)GH200)};
             \addlegendentry{Frontier (4\(\times\)MI250X)};
             \addplot+[mark=diamond*,elcap]  table[y expr={\thisrowno{1}*0.9339}] {results_elcap/hns_1e6.txt};
             \addlegendentry{El Capitan (4\(\times\)MI300A)};
@@ -81,7 +145,10 @@
             \addplot+[mark=*,frontier]  table[y index=2] {results_frontier/hns_1e8.txt};
             \addplot+[mark=*,frontier]  table[y index=2] {results_frontier/hns_1e10.txt};
             
-            \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.195}] {results_eos/hns_128M.txt};
+            %\addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.195}] {results_eos/hns_128M.txt};
+            \addplot+[mark=square*,alps]  table[y expr={\thisrowno{2}*1.195}] {results_alps/reaxff-128M-4gpus.txt};
+            \addplot+[mark=square*,alps]  table[y expr={\thisrowno{2}*1.53}] {results_alps/reaxff-16B-4gpus.txt};
+
             
             \addplot+[mark=diamond*,elcap]  table[y expr={\thisrowno{1}*1.195}] {results_elcap/hns_1e8.txt};
             \addplot+[mark=diamond*,elcap]  table[y expr={\thisrowno{1}*1.53}] {results_elcap/hns_1e10.txt};
@@ -104,11 +171,15 @@
             
             \addplot+[mark=*,frontier]  table[y index=2] {results_frontier/snap_1e8.txt};
             \addplot+[mark=*,frontier]  table[y index=2] {results_frontier/snap_1e10.txt};
-            
-            \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.024}] {results_eos/snap_1M.txt};
-            \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.31}] {results_eos/snap_128M.txt};
-            \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.68}] {results_eos/snap_16B.txt};
-            
+             
+            % \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.024}] {results_eos/snap_1M.txt};
+            % \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.31}] {results_eos/snap_128M.txt};
+            % \addplot+[mark=square*,eos]  table[y expr={\thisrowno{2}*1.68}] {results_eos/snap_16B.txt};
+
+            \addplot+[mark=square*,alps]  table[y expr={\thisrowno{2}*1.024}] {results_alps/snap-1M-4gpus.txt};
+            \addplot+[mark=square*,alps]  table[y expr={\thisrowno{2}*1.31}] {results_alps/snap-128M-4gpus.txt};
+            \addplot+[mark=square*,alps]  table[y expr={\thisrowno{2}*1.68}] {results_alps/snap-16B-4gpus.txt};
+
             \addplot+[mark=triangle*,aurora]  table[y index=2] {results_aurora/snap_1e6.txt};
             \addplot+[mark=triangle*,aurora]  table[y index=2] {results_aurora/snap_1e8.txt};
             \addplot+[mark=triangle*,aurora]  table[y index=2] {results_aurora/snap_1e10.txt};
@@ -122,7 +193,11 @@
             \draw (axis cs:32,0.031) node[anchor=north] {\(10^{10}\)};
     \end{groupplot}
 \end{tikzpicture}
-\caption{Strong scaling results for LAMMPS on different exascale architectures. The total number of atoms is given by the label below each group of results. In cases of minor atom count discrepancies, the speed was rescaled assuming linear scaling. We see that SNAP, with its faster saturation (\ref{fig:perfsat}) and higher computational expense delivers the best scaling, while ReaxFF with its lack of saturation plateau struggles to reach even 100 timesteps/s. Overall, we observe excellent strong scaling, even out to 8192 nodes on Frontier and El Capitan.}\label{fig:strongscaling}
+\else
+\includegraphics{generated-figures/paper-figure6.pdf}
+\fi
+\caption{Strong scaling results for LAMMPS on different exascale architectures. The total number of atoms is given by the label below each group of results. In cases of minor atom count discrepancies, the speed was rescaled assuming linear scaling. We see that SNAP, with its faster saturation (figure~\ref{fig:perfsat}) and higher computational expense delivers the best scaling, while ReaxFF with its lack of saturation plateau struggles to reach even 100 timesteps/s. Overall, we observe excellent strong scaling, even out to 8192 nodes on Frontier and El Capitan.}\label{fig:strongscaling}
 \end{figure*}
 
+\end{document}
 

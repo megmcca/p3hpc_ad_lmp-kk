@@ -1,13 +1,15 @@
+\def\regenfigs{0}
 \documentclass[anonymous,sigconf,9pt]{acmart}
 
 \usepackage{microtype}
+\if\regenfigs1
 \usepackage{tikz,pgfplots}
 \usetikzlibrary{arrows.meta}
 \usepgfplotslibrary{groupplots}
 \usepgfplotslibrary{external}
 \usepgfplotslibrary{colorbrewer}
 \pgfplotsset{cycle list/Set1}
-\usepgfplotslibrary{fillbetween}a
+\usepgfplotslibrary{fillbetween}
 \pgfplotsset{compat=1.18}
 \pgfplotsset{
     tick align=outside,
@@ -49,11 +51,13 @@
         }
     }
 }
+\fi
 
 \begin{document}
 
 \begin{figure*}[tbp]
 \centering
+\if\regenfigs1
 \begin{tikzpicture}[x=0.9cm,y=0.9cm,thick,>=latex,font=\small]
     \draw (0,0) node[anchor=west] (paiream) {\texttt{pair\_style eam}};
     \draw (0,-3) node[anchor=west] (paireamkk) {\texttt{pair\_style eam/kk}};
@@ -69,8 +73,8 @@
         \hspace{0.4cm}\texttt{void compute(...)\{}\\
         %\hspace{0.8cm}\texttt{...}\\
         \hspace{0.8cm}\texttt{commKK->reverse\_comm(this);}\\
-        \hspace{0.8cm}\texttt{...}\\
-        %\hspace{0.4cm}\texttt{\}}\\
+        %\hspace{0.8cm}\texttt{...}\\
+        \hspace{0.4cm}\texttt{\}}\\
         \hspace{0.4cm}\texttt{int pack\_reverse\_comm\_kokkos(...)}};
 
     \draw[<-|, red] (pair.west |- paiream.east) -- (paiream.east); 
@@ -109,7 +113,10 @@
     \draw[dashed,-{Straight Barb[]}] (pairkk.east |- commkk.west) -- (commkk.west);
     \draw[{Triangle[open]}-] (comm.320 -| commkk.40) -- (commkk.40);
 \end{tikzpicture}
-\caption{Mapping (red arrows) from user input script commands to LAMMPS class hierarchy and how the classes interact within and outside of the KOKKOS package. The pair styles operate on atomic data stored as pointers in \texttt{AtomVecAtomic} and \texttt{Kokkos::DualView}s in \texttt{AtomVecAtomicKokkos}, with the pointer in the former aliased to the CPU mirror of the latter. The EAM pair style requires additional communication, which is performed with calls to the LAMMPS communication classes.}\label{fig:flow}
+\else
+\includegraphics{generated-figures/paper-figure1.pdf}
+\fi
+\caption{Mapping (red arrows) from user input script commands to LAMMPS class hierarchy and how the classes interact within and outside of the KOKKOS package. The pair styles operate on atomic data stored as pointers in \texttt{AtomVecAtomic} and \texttt{Kokkos::DualView}s in \texttt{AtomVecAtomicKokkos}, with the pointer in the former aliased to the CPU mirror of the latter. The EAM pair style requires additional communication, which is performed with calls to the LAMMPS communication classes. Following Unified Modeling Language (UML) conventions, solid black arrows indicate inheritance, while dashed arrows indicate usage.}\label{fig:flow}
 \end{figure*}
-\end{document}
 
+\end{document}

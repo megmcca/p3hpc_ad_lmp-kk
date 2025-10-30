@@ -1,0 +1,18 @@
+Strong scaling tests, information 
+=================================
+All LAMMPS tests were run using the July 22nd, 2025 "stable" release (https://github.com/lammps/lammps/releases/tag/stable_22Jul2025) compiled using the included Kokkos library (v4.6.2).
+
+IMPORTANT: 
+Environment settings and modules for scaling on NNSA's El Capitan machine and NVIDIA's Eos machine cannot be released publicly.
+Please contact the manuscript authors with further questions.
+
+
+Alps, environment and build
+=============================
+-
+
+Notes on figure7
+================
+The directory figure7 contains the code and data required to generate the 7th figure in the manuscript.
+It was generated using the LaTeX libraries 'tikz' and 'pgfplots'.
+Please see the README in the 'artifact1' directory for further information on these libraries and settings used for this work.
