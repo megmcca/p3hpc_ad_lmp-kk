@@ -1,11 +1,19 @@
-Strong scaling tests, information 
+Strong scaling tests, information
 =================================
 All LAMMPS tests were run using the July 22nd, 2025 "stable" release (https://github.com/lammps/lammps/releases/tag/stable_22Jul2025) compiled using the included Kokkos library (v4.6.02).
 
-IMPORTANT: 
-This README contains environment settings, modules, and other details for strong scaling runs on ALCF's Aurora machine and OLCF's Frontier machine. 
-Environment settings and modules for scaling on NNSA's El Capitan machine and NVIDIA's Eos machine cannot be released publicly.
+IMPORTANT:
+This README contains environment settings, modules, and other details for strong scaling runs on CSCS's Alps machine, ALCF's Aurora machine, and OLCF's Frontier machine.
+Environment settings and modules for scaling on NNSA's El Capitan machine cannot be released publicly.
 Please contact the manuscript authors with further questions.
+
+Alps, environment and build
+=============================
+To demonstrate how to run reliable and robust strong-scaling runs on large machines, we include a script used to generate the Alps data as a reference.
+See submission script `strong-scaling-tests/alps/strong-lammps-32node-4gpu-4ib.lsf` and the note below (also in script):
+This script is a representative submit script for 32 nodes. It is, however, self-contained for any power-of-2 node count, and it will behave appropriately if you modify the #SBATCH --nodes=32 line at the top of the file. This submit script was used for runs for 4 GPUs and 4 NICs per node. In principle, this submit script supports fewer than 4 GPUs or NICs per node, but we did not explicitly test this and do not guarantee functionality or performance.
+We aspired to keep all runs at a fixed node count in a single job submission to have a consistent set of nodes. For this reason this submit script encodes the necessary run parameters for all benchmarks and node counts.
+At higher node counts, we often times split individual benchmarks and problem sizes across multiple individual submissions to better utilize machine resources. This was simply done by modifying the bash for loops for the problem size and benchmark, for size in 1 2 3 and for BENCHMARK in lj snap reaxff on lines 234 and 236, respectively.
 
 
 Aurora, environment and build
@@ -21,19 +29,20 @@ export IGC_GEPLSRThresholdRatio=10000
 export IGC_DisableRecompilation=1
 
 Aurora-specific build instructions:
-- Copy strong-scaling/sna_kokkos.h and strong-scaling/sna_kokkos_impl.h into your lammps/src/KOKKOS directory
-- Copy strong-scaling/Makefile.aurora_kokkos into your lammps/src/MAKE/MACHINE directory
+- Copy strong-scaling-tests/aurora/sna_kokkos.h and strong-scaling-tests/aurora/sna_kokkos_impl.h into your lammps/src/KOKKOS directory
+- Copy strong-scaling-tests/aurora/Makefile.aurora_kokkos into your lammps/src/MAKE/MACHINE directory
 - Load the modules and exported environment variables listed above, then compile in lammps/src using the 'make aurora_kokkos -jN' command (where N = number of processors)
+- The extra scripts in strong-scaling-tests/aurora may be used to test and study the run environment (may be outdated)
 
 
 Frontier, environment and build
 ===============================
 Modules used:
-cray-mpich/8.1.31 
-amd/6.2.0 
+cray-mpich/8.1.31
+amd/6.2.0
 rocm/6.2.0
 
-No special build instructions required. The standard LAMMPS Makefile for Frontier has been included in strong-scaling/Makefile.frontier_kokkos for inspection.
+No special build instructions required. The standard LAMMPS Makefile for Frontier has been included in strong-scaling-tests/frontier/Makefile.frontier_kokkos for inspection.
 
 
 Notes on figure6
@@ -41,3 +50,5 @@ Notes on figure6
 The directory figure6 contains the code and data required to generate the 6th figure in the manuscript.
 It was generated using the LaTeX libraries 'tikz' and 'pgfplots'.
 Please see the README in the 'artifact1' directory for further information on these libraries and settings used for this work.
+
+

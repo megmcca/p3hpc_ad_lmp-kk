@@ -1,0 +1,111 @@
+LAMMPS (2 Apr 2025 - Development - patch_2Apr2025-24-g6372178caa)
+KOKKOS mode with Kokkos version 4.6.0 is enabled (../kokkos.cpp:72)
+  will use up to 1 GPU(s) per node
+package kokkos
+package kokkos neigh half neigh/qeq full newton on comm device pair/only off
+# Pure HNS crystal, ReaxFF tests for benchmarking LAMMPS
+# See README for more info
+
+units		real
+atom_style	charge
+atom_modify sort  100 0.0
+dimension       3
+boundary        p p p
+box               tilt large
+
+The 'box' command has been removed and will be ignored
+
+
+read_data  	data.hns
+Reading data file ...
+  triclinic box = (0 0 0) to (22.326 11.1412 13.778966) with tilt (0 -5.02603 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  304 atoms
+  reading velocities ...
+  304 velocities
+  read_data CPU = 0.098 seconds
+replicate         $x $y $z bbox
+replicate         8 $y $z bbox
+replicate         8 16 $z bbox
+replicate         8 16 12 bbox
+Replication is creating a 8x16x12 = 1536 times larger system...
+  triclinic box = (0 0 0) to (178.608 178.2592 165.34759) with tilt (0 -60.31236 0)
+  1 by 1 by 1 MPI processor grid
+  bounding box image = (0 -1 -1) to (0 1 1)
+  bounding box extra memory = 0.03 MB
+  average # of replicas added to proc = 1536.00 out of 1536 (100.00%)
+  466944 atoms
+  replicate CPU = 0.027 seconds
+
+pair_style        reaxff NULL
+pair_coeff	* * ffield.reax.hns C H O N
+
+compute   	reax all pair reaxff
+
+neighbor	1.0 bin
+neigh_modify      every 20 delay 0 check no
+
+timestep        0.1
+
+thermo_style      custom step temp pe press evdwl ecoul vol
+thermo_modify	norm yes
+thermo	  	100
+
+velocity          all create 300.0 41279 loop geom
+
+fix		1 all nve
+fix             2 all qeq/reaxff 1 0.0 10.0 1e-6 reaxff
+
+run  		$t
+run  		100
+Neighbor list info ...
+  update: every = 20 steps, delay = 0 steps, check = no
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 11
+  ghost atom cutoff = 11
+  binsize = 11, bins = 22 17 16
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reaxff/kk, perpetual
+      attributes: half, newton off, ghost, kokkos_device
+      pair build: half/bin/newtoff/ghost/kk/device
+      stencil: full/ghost/bin/3d
+      bin: kk/device
+  (2) fix qeq/reaxff/kk, perpetual
+      attributes: full, newton off, kokkos_device
+      pair build: full/bin/kk/device
+      stencil: full/bin/3d
+      bin: kk/device
+Per MPI rank memory allocation (min/avg/max) = 5146 | 5146 | 5146 Mbytes
+   Step          Temp          PotEng         Press          E_vdwl         E_coul         Volume    
+         0   300           -113.27833      439.01114     -111.57687     -1.7014647      5264422.5    
+       100   302.63594     -113.28549      10145.438     -111.5867      -1.6987824      5264422.5    
+Loop time of 17.8874 on 1 procs for 100 steps with 466944 atoms
+
+Performance: 0.048 ns/day, 496.871 hours/ns, 5.591 timesteps/s, 2.610 Matom-step/s
+85.3% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 6.1065     | 6.1065     | 6.1065     |   0.0 | 34.14
+Neigh   | 0.17107    | 0.17107    | 0.17107    |   0.0 |  0.96
+Comm    | 1.9668     | 1.9668     | 1.9668     |   0.0 | 11.00
+Output  | 0.0002124  | 0.0002124  | 0.0002124  |   0.0 |  0.00
+Modify  | 9.6395     | 9.6395     | 9.6395     |   0.0 | 53.89
+Other   |            | 0.003292   |            |       |  0.02
+
+Nlocal:         466944 ave      466944 max      466944 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:         203756 ave      203756 max      203756 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    1.22765e+08 ave 1.22765e+08 max 1.22765e+08 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  2.29123e+08 ave 2.29123e+08 max 2.29123e+08 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 2.2912284e+08
+Ave neighs/atom = 490.6859
+Neighbor list builds = 5
+Dangerous builds not checked
+Total wall time: 0:00:18

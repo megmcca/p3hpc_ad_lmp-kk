@@ -3,13 +3,17 @@ Strong scaling tests, information
 All LAMMPS tests were run using the July 22nd, 2025 "stable" release (https://github.com/lammps/lammps/releases/tag/stable_22Jul2025) compiled using the included Kokkos library (v4.6.2).
 
 IMPORTANT: 
-Environment settings and modules for scaling on NNSA's El Capitan machine and NVIDIA's Eos machine cannot be released publicly.
+Environment settings and modules for scaling on NVIDIA's Eos machine cannot be released publicly.
 Please contact the manuscript authors with further questions.
 
 
 Alps, environment and build
 =============================
--
+To demonstrate how to run reliable and robust strong-scaling runs on large machines, we include a script used to generate the Alps data as a reference.
+See submission script `strong-lammps-32node-4gpu-4ib.lsf` and the note below (also in script):
+This script is a representative submit script for 32 nodes. It is, however, self-contained for any power-of-2 node count, and it will behave appropriately if you modify the #SBATCH --nodes=32 line at the top of the file. This submit script was used for runs for 4 GPUs and 4 NICs per node. In principle, this submit script supports fewer than 4 GPUs or NICs per node, but we did not explicitly test this and do not guarantee functionality or performance.
+We aspired to keep all runs at a fixed node count in a single job submission to have a consistent set of nodes. For this reason this submit script encodes the necessary run parameters for all benchmarks and node counts.
+At higher node counts, we often times split individual benchmarks and problem sizes across multiple individual submissions to better utilize machine resources. This was simply done by modifying the bash for loops for the problem size and benchmark, for size in 1 2 3 and for BENCHMARK in lj snap reaxff on lines 234 and 236, respectively.
 
 Notes on figure7
 ================

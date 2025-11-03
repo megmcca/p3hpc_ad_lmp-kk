@@ -1,0 +1,292 @@
+#!/usr/bin/env bash
+
+#SBATCH --partition=normal
+#SBATCH --account=g202
+#SBATCH --reservation=g202
+## The "1" below was modified by hand for different problem sizes
+#SBATCH --nodes=32
+#SBATCH --ntasks-per-node=4
+#SBATCH --time=30
+#SBATCH --output=stdout-lammps-kokkos-run02-32node-4gpu-4ib-%J.out
+#SBATCH --uenv=prgenv-gnu/24.11:v2
+#SBATCH --view=default
+
+# Note:
+#This is a representative submit script for 32 nodes. It is, however, self-contained for any power-of-2 node count, and it will behave appropriately if you modify the #SBATCH --nodes=32 line at the top of the file.
+#This submit script was used for runs for 4 GPUs and 4 NICs per node. In principle, this submit script supports fewer than 4 GPUs or NICs per node, but we did not explicitly test this and do not guarantee functionality or performance.
+#
+#We aspired to keep all runs at a fixed node count in a single job submission to have a consistent set of nodes.
+#For this reason this submit script encodes the necessary run parameters for all benchmarks and node counts.
+#
+#At higher node counts, we often times split individual benchmarks and problem sizes across multiple individual submissions to better utilize machine resources.
+#This was simply done by modifying the bash for loops for the problem size and benchmark, for size in 1 2 3 and for BENCHMARK in lj snap reaxff on lines 234 and 236, respectively.
+#
+
+export MACHINE="alps"
+export NGPU=${SLURM_NTASKS_PER_NODE}
+export NRANK=${SLURM_NTASKS}
+export NIB=${SLURM_NTASKS_PER_NODE}
+
+# Extract bits of the directory based on my username, set up the output directories
+MY_NAME=$(whoami)
+THIS_DIRECTORY=$(pwd)
+export BASE_DIRECTORY=${THIS_DIRECTORY%*${MY_NAME}/*}${MY_NAME}
+export RELATIVE_DIR=${THIS_DIRECTORY#*${MY_NAME}*}
+
+# MPI flags
+export MPICH_GPU_SUPPORT_ENABLED=1
+#export MPICH_OFI_NIC_POLICY=GPU
+export MPICH_VERSION_DISPLAY=1
+export MPICH_OFI_NIC_VERBOSE=2
+
+export MPICH_OFI_NIC_POLICY="USER"
+export MPICH_OFI_NIC_MAPPING="0:0;1:1;2:2;3:3"
+#echo "MPICH_OFI_NIC_POLICY=${MPICH_OFI_NIC_POLICY}"
+#echo "MPICH_OFI_NIC_MAPPING=${MPICH_OFI_NIC_MAPPING}"
+
+# First batch of magic flags
+export PMI_MMAP_SYNC_WAIT_TIME=300
+export FI_CXI_RX_MATCH_MODE=software
+export FI_MR_CACHE_MONITOR=disabled
+export FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD=0
+export FI_CXI_DISABLE_HOST_REGISTER=1
+
+export BIND_SCRIPT=${THIS_DIRECTORY}/bind-slurm.sh
+echo "Bind script location: $BIND_SCRIPT"
+
+echo "****** BIND SCRIPT *******"
+cat $BIND_SCRIPT
+echo "****** BIND SCRIPT *******"
+
+export EXE=${BASE_DIRECTORY}/lammps-kokkos/install-stable-22Jul2025/bin/lmp
+
+echo "********** COMMON INFO ************"
+echo "                 Machine: ${MACHINE}"
+echo "              Node count: ${SLURM_JOB_NUM_NODES}"
+echo "           GPUs per node: ${NGPU}"
+echo "              Total GPUs: ${NRANK}"
+echo "           NICs per node: ${NIB}"
+echo "           Run directory: ${THIS_DIRECTORY}"
+echo "              Executable: $EXE"
+echo "          Nsys Profiling: $USE_NSYS"
+echo "***********************************"
+
+BASE_STR="strong-${MACHINE}-${SLURM_JOB_NUM_NODES}node-${NGPU}gpu-${NIB}ib-J${SLURM_JOB_ID}"
+
+mkdir -p "./run02-outputs-${BASE_STR}"
+
+# Function to get timesteps based on node count and benchmark parameters
+# This function was written with help from AI, but the numbers are based on my own
+# prior runs on Eos.
+calculate_timesteps() {
+    local benchmark=$1
+    local size=$2
+    local nodes=$((NRANK / 4))  # Convert NRANK to node count
+
+    # Lookup tables for timesteps based on node count
+    # Format: "nodes:timesteps"
+    if [[ "$benchmark" == "lj" ]]; then
+        case $size in
+            1) local values=(  # 8M atoms
+                "1:36500"
+                "2:52420"
+                "4:93500"
+                "8:160000"
+                "16:200000"
+                "32:300000"
+                "64:400000"
+                "128:400000"
+                "256:400000"
+                "512:400000"
+                "1024:400000"
+                "2048:400000"
+            ) ;;
+            2) local values=(  # 1B atoms
+                "1:100"
+                "2:600"
+                "4:1000"
+                "8:2000"
+                "16:4000"
+                "32:8000"
+                "64:14000"
+                "128:25000"
+                "256:45000"
+                "512:80000"
+                "1024:140000"
+                "2048:250000"
+            ) ;;
+            3) local values=(  # 128B atoms
+                "1:100"
+                "2:100"
+                "4:100"
+                "8:100"
+                "16:100"
+                "32:100"
+                "64:100"
+                "128:250"
+                "256:500"
+                "512:1000"
+                "1024:2000"
+                "2048:4000"
+            ) ;;
+        esac
+    elif [[ "$benchmark" == "snap" ]]; then
+        case $size in
+            1) local values=(  # 1M atoms
+                "1:2035"
+                "2:2740"
+                "4:5345"
+                "8:10250"
+                "16:17725"
+                "32:28695"
+                "64:42435"
+                "128:55565"
+                "256:67510"
+                "512:80000"
+                "1024:95000"
+                "2048:110000"
+            ) ;;
+            2) local values=(  # 128M atoms
+                "1:13"
+                "2:45"
+                "4:90"
+                "8:180"
+                "16:350"
+                "32:500"
+                "64:800"
+                "128:1400"
+                "256:2800"
+                "512:5500"
+                "1024:10000"
+                "2048:20000"
+            ) ;;
+            3) local values=(  # 16B atoms
+                "1:100"
+                "2:100"
+                "4:100"
+                "8:100"
+                "16:10"
+                "32:10"
+                "64:10"
+                "128:10"
+                "256:20"
+                "512:40"
+                "1024:80"
+                "2048:160"
+            ) ;;
+        esac
+    else # reaxff
+        case $size in
+            1) local values=(  # 1M atoms
+                "1:2035"
+                "2:3000"
+                "4:4210"
+                "8:4685"
+                "16:5030"
+                "32:5355"
+                "64:5410"
+                "128:5350"
+                "256:5375"
+                "512:5400"
+                "1024:5425"
+                "2048:5450"
+            ) ;;
+            2) local values=(  # 128M atoms
+                "1:100"
+                "2:100"
+                "4:100"
+                "8:155"
+                "16:305"
+                "32:565"
+                "64:1365"
+                "128:1525"
+                "256:2195"
+                "512:3000"
+                "1024:4000"
+                "2048:5000"
+            ) ;;
+            3) local values=(  # 16B atoms
+                "1:100"
+                "2:100"
+                "4:100"
+                "8:100"
+                "16:100"
+                "32:100"
+                "64:100"
+                "128:100"
+                "256:100"
+                "512:100"
+                "1024:155"
+                "2048:305"
+            ) ;;
+        esac
+    fi
+
+    # Find the closest node count in the table and use its timesteps
+    local prev_n=0
+    local prev_t=0
+
+    for entry in "${values[@]}"; do
+        local n=${entry%%:*}
+        local t=${entry#*:}
+
+        if ((nodes <= n)); then
+            T=$t
+            return
+        fi
+        prev_n=$n
+        prev_t=$t
+    done
+
+    # If we get here, use the last value in the table
+    export T=$prev_t
+}
+
+for size in 1 2 3
+do
+  for BENCHMARK in lj snap reaxff
+  do
+    if [[ "$BENCHMARK" == "lj" ]]
+    then
+      case $size in
+        1) X=80;   Y=160;  Z=160;  S="8M"   ;;
+        2) X=640;  Y=640;  Z=640;  S="1B"   ;;
+        3) X=2560; Y=2560; Z=5120; S="128B" ;;
+      esac
+      calculate_timesteps "$BENCHMARK" "$size"
+      ARGS="-k on g $NGPU -sf kk -pk kokkos neigh full neigh/qeq full newton off comm device pair/only off gpu/aware on -in in.lj.strong -nocite -log none"
+    elif [[ "$BENCHMARK" == "snap" ]]
+    then
+      case $size in
+        1) X=80;   Y=80;   Z=80;   S="1M"   ;;
+        2) X=320;  Y=320;  Z=640;  S="128M" ;;
+        3) X=1280; Y=2560; Z=2560; S="16B"  ;;
+      esac
+      calculate_timesteps "$BENCHMARK" "$size"
+      # Per node: 16K, 64K, 256K, 1024K
+      ARGS="-k on g $NGPU -sf kk -pk kokkos neigh half neigh/qeq full newton on comm device pair/only off gpu/aware on -in in.snap.strong -nocite -log none"
+    else # reaxff
+      case $size in
+        1) X=16;  Y=16;  Z=12;  S="1M"   ;;
+        2) X=64;  Y=64;  Z=96;  S="128M" ;;
+        3) X=256; Y=512; Z=384; S="16B"  ;;
+      esac
+      calculate_timesteps "$BENCHMARK" "$size"
+      # Per node: 256K, 1024K = 1M, 4M, 16M ... but 2M is actually 16x16x24 fyi
+      export ARGS="-k on g $NGPU -sf kk -pk kokkos neigh half neigh/qeq full newton on comm device pair/only off gpu/aware on -in in.hns_lattice -nocite -log none"
+    fi
+
+    BENCH_SPEC="-v x $X -v y $Y -v z $Z -v t ${T}"
+    export RUNSTRING="${BENCHMARK}-${S}-${BASE_STR}"
+
+    echo "************ RUN INFO *************"
+    echo "               Benchmark: ${BENCHMARK}"
+    echo "         Argument string: ${ARGS}"
+    echo "          Benchmark spec: ${BENCH_SPEC}"
+    echo "***********************************"
+
+    srun --nodes=${SLURM_JOB_NUM_NODES} --tasks-per-node=${NGPU} --gpus-per-task=1 --gpu-bind=none --view=default \
+      bash -c "${BIND_SCRIPT} $EXE $ARGS $BENCH_SPEC " 2>&1 | tee "run02-outputs-${BASE_STR}/bench-${RUNSTRING}.out"
+  done
+done
+
