@@ -1,7 +1,0 @@
-To profile kernel performance, we used the NVIDIA NSight System program.
-Outputs for kernel runtimes appear at the end of the stdout.
-
-Command pseudocode:
-
-nsys profile --stats true --trace cuda,nvtx,mpi --output [name] -x false -d [duration to capture in seconds, set to longer than full run] {standard LAMMPS call}
-
