@@ -1,3 +1,9 @@
+Artifact 6 contents
+===================
+This directory contains the following:
+* The 'figure6' subdirectory contains data extracted from LAMMPS logs and the LaTeX code to generate the first figure of the paper and a PDF version of the same figure. All figures require the use of the 'tikz' and 'pgfplots' LaTeX libraries; see notes in 'artifact1/README' for more details. 
+* The 'strong-scaling-tests' subdirectory contains run scripts and extracted data files to generate figure 6 in the paper; more details on the setup and execuption of our strong scaling tests are included below.
+
 Strong scaling tests, information
 =================================
 All LAMMPS tests were run using the July 22nd, 2025 "stable" release (https://github.com/lammps/lammps/releases/tag/stable_22Jul2025) compiled using the included Kokkos library (v4.6.02).
@@ -45,10 +51,5 @@ rocm/6.2.0
 No special build instructions required. The standard LAMMPS Makefile for Frontier has been included in strong-scaling-tests/frontier/Makefile.frontier_kokkos for inspection.
 
 
-Notes on figure6
-================
-The directory figure6 contains the code and data required to generate the 6th figure in the manuscript.
-It was generated using the LaTeX libraries 'tikz' and 'pgfplots'.
-Please see the README in the 'artifact1' directory for further information on these libraries and settings used for this work.
 
 
