@@ -1,3 +1,10 @@
+Artifact 1 contents
+===================
+This directory contains the following:
+* The 'figure1' subdirectory contains the LaTeX code to generate the first figure of the paper and a PDF version of the same figure. All figures require the use of the 'tikz' and 'pgfplots' LaTeX libraries; see notes for that below. 
+* The 'build_instructions' subdirectory contains an assortment of bash scripts, Makefiles, and other potentially-useful files for building LAMMPS on the GPU (and one CPU) architectures used in this paper. We include these for documentation purposes and to serve as a very loose guide for interested readers, but make no guarantees that they will work for your particular case. Note that we do not include any build information for El Capitan (figure 6) or NVIDIA's Eos machine (figure 7).
+* The 'inputs' subdirectory contains example scripts for running the LAMMPS benchmarks used in the paper.
+
 Notes on the generation of all figures
 ======================================
 All figures shown in this manuscript were generated using the LaTeX libraries 'tikz' and 'pgfplots'. More information on both can be found at:
