@@ -1,3 +1,10 @@
+Artifact 7 contents
+===================
+This directory contains the following:
+* The 'figure7' subdirectory contains data extracted from LAMMPS logs, the LaTeX code to generate the figure, and a PDF version of the figure. All figures require the use of the 'tikz' and 'pgfplots' LaTeX libraries; see notes in 'artifact1/README' for more details. 
+* The 'strong-lammps-32node-4gpu-4ib.lsf' file is a script used to run strong scaling tests on Alps; more details on this script are included below.
+
+
 Strong scaling tests, information 
 =================================
 All LAMMPS tests were run using the July 22nd, 2025 "stable" release (https://github.com/lammps/lammps/releases/tag/stable_22Jul2025) compiled using the included Kokkos library (v4.6.2).
@@ -15,8 +22,3 @@ This script is a representative submit script for 32 nodes. It is, however, self
 We aspired to keep all runs at a fixed node count in a single job submission to have a consistent set of nodes. For this reason this submit script encodes the necessary run parameters for all benchmarks and node counts.
 At higher node counts, we often times split individual benchmarks and problem sizes across multiple individual submissions to better utilize machine resources. This was simply done by modifying the bash for loops for the problem size and benchmark, for size in 1 2 3 and for BENCHMARK in lj snap reaxff on lines 234 and 236, respectively.
 
-Notes on figure7
-================
-The directory figure7 contains the code and data required to generate the 7th figure in the manuscript.
-It was generated using the LaTeX libraries 'tikz' and 'pgfplots'.
-Please see the README in the 'artifact1' directory for further information on these libraries and settings used for this work.
