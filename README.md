@@ -1,5 +1,4 @@
 # p3hpc_ad_lmp-kk 
-=================
 
 Basic artifact description for paper "LAMMPS-KOKKOS: Performance Portable Molecular Dynamics Across Exascale Architectures".
 The arXiv version of manuscript can be found at: https://arxiv.org/abs/2508.13523
