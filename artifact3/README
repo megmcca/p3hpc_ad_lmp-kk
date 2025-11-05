@@ -1,7 +1,7 @@
 Artifact 3 contents
 ===================
 This directory contains the following:
-* The 'figure3' subdirectory contains data extracted from LAMMPS logs and the LaTeX code to generate the first figure of the paper and a PDF version of the same figure. All figures require the use of the 'tikz' and 'pgfplots' LaTeX libraries; see notes in 'artifact1/README' for more details. 
+* The 'figure3' subdirectory contains data extracted from LAMMPS logs, the LaTeX code to generate the figure, and a PDF version of the figure. All figures require the use of the 'tikz' and 'pgfplots' LaTeX libraries; see notes in 'artifact1/README' for more details. 
 * The 'h100-carveout-tests' subdirectory contains bash scripts and LAMMPS input scripts to re-create the data displayed in figure 3; see the "Running cache carveout tests..." section below for more details on how to replicate our process.
 
 

@@ -1,6 +1,6 @@
 Artifact 2 contents
 ===================
 This directory contains the following:
-* The 'figure2' subdirectory contains data extracted from LAMMPS logs and the LaTeX code to generate the first figure of the paper and a PDF version of the same figure. All figures require the use of the 'tikz' and 'pgfplots' LaTeX libraries; see notes in 'artifact1/README' for more details. 
+* The 'figure2' subdirectory contains data extracted from LAMMPS logs, the LaTeX code to generate the figure, and a PDF version of the figure. All figures require the use of the 'tikz' and 'pgfplots' LaTeX libraries; see notes in 'artifact1/README' for more details. 
 * The 'logs' subdirectory contains the log files used to extract data for figure 2 in the paper.
 * The 'run' subdirectory contains example scripts for running LAMMPS and processing the data used in figure 2.

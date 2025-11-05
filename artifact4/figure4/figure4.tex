@@ -68,11 +68,11 @@
     height=2in,
     width=\linewidth,
 ]
-    \addplot+[mark=*] table[y expr={100*\thisrowno{1}/1335.066624}] {results/satlj_h100.txt};
+    \addplot+[mark=*] table[y expr={100*\thisrowno{1}/1335.066624}] {satlj_h100.txt};
     \addlegendentry{LJ};
-    \addplot+[mark=square*] table[y expr={100*\thisrowno{1}/4.067584}] {results/satsnap_h100.txt};
+    \addplot+[mark=square*] table[y expr={100*\thisrowno{1}/4.067584}] {satsnap_h100.txt};
     \addlegendentry{SNAP};
-    \addplot+[mark=diamond*] table[y expr={100*\thisrowno{1}/11.378491}] {results/satreax_h100.txt};
+    \addplot+[mark=diamond*] table[y expr={100*\thisrowno{1}/11.378491}] {satreax_h100.txt};
     \addlegendentry{ReaxFF};
 \end{axis}
 \end{tikzpicture}

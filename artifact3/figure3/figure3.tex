@@ -55,7 +55,7 @@
 
 \begin{figure}[tbp]
     \centering
-    %\includegraphics[width=\linewidth]{results//cache-carveout-h100-hbm3/h100_carveout_placeholder.png}
+    %\includegraphics[width=\linewidth]{h100_carveout_placeholder.png}
 \if\regenfigs1
 \begin{tikzpicture}
 \begin{axis}[
@@ -69,13 +69,13 @@
     ymin=-0.05,
     width=\linewidth,
 ]
-    \addplot+[mark=*] table[y index=1] {results/cache-carveout-h100-hbm3/carveout_data_h100_hbm3_new.txt};
+    \addplot+[mark=*] table[y index=1] {carveout_data_h100_hbm3_new.txt};
     \addlegendentry{ComputeUi};
-    \addplot+[mark=square*] table[y index=2] {results/cache-carveout-h100-hbm3/carveout_data_h100_hbm3_new.txt};
+    \addplot+[mark=square*] table[y index=2] {carveout_data_h100_hbm3_new.txt};
     \addlegendentry{ComputeYi};
-    \addplot+[mark=diamond*] table[y index=3] {results/cache-carveout-h100-hbm3/carveout_data_h100_hbm3_new.txt};
+    \addplot+[mark=diamond*] table[y index=3] {carveout_data_h100_hbm3_new.txt};
     \addlegendentry{ComputeFusedDeidrjAll};
-    \addplot+[mark=triangle*] table[y index=4] {results/cache-carveout-h100-hbm3/carveout_data_h100_hbm3_new.txt};
+    \addplot+[mark=triangle*] table[y index=4] {carveout_data_h100_hbm3_new.txt};
     \addlegendentry{PairComputeLJCut};
 \end{axis}
 \end{tikzpicture}

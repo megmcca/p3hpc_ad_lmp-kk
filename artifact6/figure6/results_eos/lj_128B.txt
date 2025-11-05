@@ -1,2 +1,0 @@
-# nnodes natoms steps/s Matomsteps/s/node
-   256  134217728000      5.591 2931.29421
