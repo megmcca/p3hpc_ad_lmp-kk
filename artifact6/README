@@ -2,7 +2,7 @@ Artifact 6 contents
 ===================
 This directory contains the following:
 * The 'figure6' subdirectory contains data extracted from LAMMPS logs, the LaTeX code to generate the figure, and a PDF version of the figure. All figures require the use of the 'tikz' and 'pgfplots' LaTeX libraries; see notes in 'artifact1/README' for more details. 
-* The 'strong-scaling-tests' subdirectory contains run scripts and extracted data files to generate figure 6 in the paper; more details on the setup and execuption of our strong scaling tests are included below.
+* The 'strong-scaling-tests' subdirectory contains run scripts and extracted data files to generate figure 6 in the paper; more details on the setup and execution of our strong scaling tests are included below.
 
 Strong scaling tests, information
 =================================
